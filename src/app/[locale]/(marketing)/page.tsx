@@ -1,79 +1,76 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+// import { getList } from '@/data/services/auth-service';
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 type IIndexProps = {
-  params: Promise<{ locale: string }>;
-};
+  params: Promise<{ locale: string; children: React.ReactNode }>
+}
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function generateMetadata(props: IIndexProps) {
-  const { locale } = await props.params;
-  const t = await getTranslations({
-    locale,
-    namespace: 'index',
-  });
+  // const { locale } = await props.params
+  // const t = await getTranslations({
+  //   locale,
+  //   namespace: 'common',
+  // });
 
   return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
+    // title: t('meta_title'),
+    // description: t('meta_description'),
+  }
+}
+
+export async function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'th' }]
 }
 
 export default async function Index(props: IIndexProps) {
-  const { locale } = await props.params;
-  setRequestLocale(locale);
+  const { locale, children } = await props.params
+  setRequestLocale(locale)
   const t = await getTranslations({
     locale,
-    namespace: 'Index',
-  });
+    namespace: 'common',
+  })
+
+  // getList().then((res) => {
+  //   list = res.data;
+  //   console.log(res);
+  // });
+  // console.log(list);
 
   return (
-    <>
-      <p>
-        {`Follow `}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://twitter.com/ixartz"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          @Ixartz on Twitter
-        </a>
-        {` for updates and more information about the boilerplate.`}
-      </p>
-      <h2 className="mt-5 text-2xl font-bold">
+    <div className='p-6'>
+      {children}
+      <h2 className='mt-5 text-2xl font-bold'>
         Boilerplate Code for Your Next.js Project with Tailwind CSS
       </h2>
-      <p className="text-base">
-        Next.js Boilerplate is a developer-friendly starter code for Next.js projects, built with Tailwind CSS and TypeScript.
-        {' '}
-        <span role="img" aria-label="zap">
+      <p className='text-base'>
+        Next.js Boilerplate is a developer-friendly starter code for Next.js
+        projects, built with Tailwind CSS and TypeScript.{' '}
+        <span role='img' aria-label='zap'>
           ⚡️
-        </span>
-        {' '}
+        </span>{' '}
         Designed with developer experience in mind, it includes:
       </p>
-      <ul className="mt-3 text-base">
+      <ul className='mt-3 text-base'>
         <li>🚀 Next.js with App Router support</li>
         <li>🔥 TypeScript for type checking</li>
         <li>💎 Tailwind CSS integration</li>
         <li>
-          🔒 Authentication with
-          {' '}
+          🔒 Authentication with{' '}
           <a
-            className="font-bold text-blue-700 hover:border-b-2 hover:border-blue-700"
-            href="https://clerk.com?utm_source=github&amp;utm_medium=sponsorship&amp;utm_campaign=nextjs-boilerplate"
+            className='font-bold text-blue-700 hover:border-b-2 hover:border-blue-700'
+            href='https://clerk.com?utm_source=github&amp;utm_medium=sponsorship&amp;utm_campaign=nextjs-boilerplate'
           >
             Clerk
-          </a>
-          {' '}
+          </a>{' '}
           (includes passwordless, social, and multi-factor auth)
         </li>
         <li>📦 ORM with DrizzleORM (PostgreSQL, SQLite, MySQL support)</li>
         <li>
-          🌐 Multi-language support (i18n) with next-intl and
-          {' '}
+          🌐 Multi-language support (i18n) with next-intl and{' '}
           <a
-            className="font-bold text-blue-700 hover:border-b-2 hover:border-blue-700"
-            href="https://l.crowdin.com/next-js"
+            className='font-bold text-blue-700 hover:border-b-2 hover:border-blue-700'
+            href='https://l.crowdin.com/next-js'
           >
             Crowdin
           </a>
@@ -86,8 +83,8 @@ export default async function Index(props: IIndexProps) {
         <li>
           🚨 Error monitoring (
           <a
-            className="font-bold text-blue-700 hover:border-b-2 hover:border-blue-700"
-            href="https://sentry.io/for/nextjs/?utm_source=github&amp;utm_medium=paid-community&amp;utm_campaign=general-fy25q1-nextjs&amp;utm_content=github-banner-nextjsboilerplate-logo"
+            className='font-bold text-blue-700 hover:border-b-2 hover:border-blue-700'
+            href='https://sentry.io/for/nextjs/?utm_source=github&amp;utm_medium=paid-community&amp;utm_campaign=general-fy25q1-nextjs&amp;utm_content=github-banner-nextjsboilerplate-logo'
           >
             Sentry
           </a>
@@ -97,23 +94,26 @@ export default async function Index(props: IIndexProps) {
         <li>
           🔐 Security and bot protection (
           <a
-            className="font-bold text-blue-700 hover:border-b-2 hover:border-blue-700"
-            href="https://launch.arcjet.com/Q6eLbRE"
+            className='font-bold text-blue-700 hover:border-b-2 hover:border-blue-700'
+            href='https://launch.arcjet.com/Q6eLbRE'
           >
             Arcjet
           </a>
           )
         </li>
         <li>🤖 SEO optimization (metadata, JSON-LD, Open Graph tags)</li>
-        <li>⚙️ Development tools (VSCode config, bundler analyzer, changelog generation)</li>
+        <li>
+          ⚙️ Development tools (VSCode config, bundler analyzer, changelog
+          generation)
+        </li>
       </ul>
-      <p className="text-base">
+      <p className='text-base'>
         Our sponsors&apos; exceptional support has made this project possible.
         Their services integrate seamlessly with the boilerplate, and we
         recommend trying them out.
       </p>
-      <h2 className="mt-5 text-2xl font-bold">{t('sponsors_title')}</h2>
+      <h2 className='mt-5 text-2xl font-bold'>{t('sign_in')}</h2>
       {/* <Sponsors /> */}
-    </>
-  );
-};
+    </div>
+  )
+}

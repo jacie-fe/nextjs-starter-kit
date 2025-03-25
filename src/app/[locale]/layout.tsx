@@ -5,7 +5,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/navigation'
 import { notFound } from 'next/navigation'
-import Header from '@/components/custom/header'
+import Header from '@/components/custom/header/header'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

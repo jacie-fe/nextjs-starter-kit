@@ -112,3 +112,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+.left-to-right {
+  position: relative;
+  animation: leftToRight 1.5s ease-in 1 forwards; /* Use forwards to keep the final position */
+}
+
+@keyframes leftToRight {
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  100% {
+    left: 100px;
+    top: 0px;
+  }
+}
+
+.right-to-left {
+  position: relative;
+  animation: rightToLeft 1.5s ease-in 1 forwards; /* Use forwards to keep the final position */
+}
+
+@keyframes rightToLeft {
+  0% {
+    right: 0px;
+    top: 0px;
+  }
+  100% {
+    right: 100px;
+    top: 0px;
+  }
+}

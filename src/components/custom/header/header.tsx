@@ -1,5 +1,8 @@
-import { Book, Menu, Sunset, Trees, Zap } from 'lucide-react'
+import {
+  Menu,
+} from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import {
   Accordion,
@@ -25,7 +28,8 @@ import {
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 // import { usePathname } from 'next/navigation'
-// import Logo from '/logo.svg'
+import Logo from '@/assets/logo.svg'
+import { menu } from '@/lib/constants'
 
 interface MenuItem {
   title: string
@@ -37,112 +41,30 @@ interface MenuItem {
 
 type HeaderProps = React.HTMLAttributes<HTMLUListElement>
 
+
 const Header = ({ className }: HeaderProps) => {
-  const menu = [
-    { title: 'Home', url: '#' },
-    {
-      title: 'Products',
-      url: '#',
-      items: [
-        {
-          title: 'Blog',
-          description: 'The latest industry news, updates, and info',
-          icon: <Book className='size-5 shrink-0' />,
-          url: '#',
-        },
-        {
-          title: 'Company',
-          description: 'Our mission is to innovate and empower the world',
-          icon: <Trees className='size-5 shrink-0' />,
-          url: '#',
-        },
-        {
-          title: 'Careers',
-          description: 'Browse job listing and discover our workspace',
-          icon: <Sunset className='size-5 shrink-0' />,
-          url: '#',
-        },
-        {
-          title: 'Support',
-          description:
-            'Get in touch with our support team or visit our community forums',
-          icon: <Zap className='size-5 shrink-0' />,
-          url: '#',
-        },
-      ],
-    },
-
-    {
-      title: 'Pricing',
-      url: '#',
-    },
-    {
-      title: 'Blog',
-      url: '#',
-    },
-    {
-      title: 'Resources',
-      url: '#',
-      items: [
-        {
-          title: 'Help Center',
-          description: 'Get all the answers you need right here',
-          icon: <Zap className='size-5 shrink-0' />,
-          url: '#',
-        },
-        {
-          title: 'Contact Us',
-          description: 'We are here to help you with any questions you have',
-          icon: <Sunset className='size-5 shrink-0' />,
-          url: '#',
-        },
-        {
-          title: 'Status',
-          description: 'Check the current status of our services and APIs',
-          icon: <Trees className='size-5 shrink-0' />,
-          url: '#',
-        },
-        {
-          title: 'Terms of Service',
-          description: 'Our terms and conditions for using our services',
-          icon: <Book className='size-5 shrink-0' />,
-          url: '#',
-        },
-      ],
-    },
-  ]
-
   const auth = {
     login: { title: 'Login', url: '#' },
     signup: { title: 'Sign up', url: '#' },
   }
 
-  const logo = {
-    url: 'https://www.shadcnblocks.com',
-    src: 'https://shadcnblocks.com/images/block/logos/shadcnblockscom-icon.svg',
-    alt: 'logo',
-    title: 'Shadcnblocks.com',
-  }
-
   return (
-    <section className={cn('', className)}>
+    <section className={cn('border-b', className)}>
       <div className='container mx-auto'>
         {/* Desktop Menu */}
         <nav className='hidden justify-between lg:flex'>
-          {/* Logo */}
-          <a>
+          <Link className='flex items-center gap-2' href='/'>
             <Image
-              src='../../../assets/logo.svg'
+              src={Logo}
               className='max-h-8'
-              alt={logo.alt}
+              alt='eAuthenticator'
               width={32}
               height={32}
             />
-            {/* <img src={logo.src} className='max-h-8' alt={logo.alt} /> */}
-            <span className='text-lg font-semibold tracking-tighter'>
-              {logo.title}
+            <span className='text-primary text-xl font-medium'>
+              eAuthenticator
             </span>
-          </a>
+          </Link>
           <div className='flex items-center'>
             <NavigationMenu viewport={false}>
               <NavigationMenuList>
@@ -150,7 +72,7 @@ const Header = ({ className }: HeaderProps) => {
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className='flex gap-2'>
+          <div className='flex items-center gap-2'>
             <Button asChild variant='outline' size='sm'>
               <a href={auth.login.url}>{auth.login.title}</a>
             </Button>
@@ -164,9 +86,18 @@ const Header = ({ className }: HeaderProps) => {
         <div className='block lg:hidden'>
           <div className='flex items-center justify-between'>
             {/* Logo */}
-            <a href={logo.url} className='flex items-center gap-2'>
-              <img src={logo.src} className='max-h-8' alt={logo.alt} />
-            </a>
+            <Link className='flex items-center gap-2' href='/'>
+              <Image
+                src={Logo}
+                className='max-h-8'
+                alt='eAuthenticator'
+                width={32}
+                height={32}
+              />
+              <span className='text-primary text-xl font-medium'>
+                eAuthenticator
+              </span>
+            </Link>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant='outline' size='icon'>
@@ -176,9 +107,18 @@ const Header = ({ className }: HeaderProps) => {
               <SheetContent className='overflow-y-auto'>
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className='flex items-center gap-2'>
-                      <img src={logo.src} className='max-h-8' alt={logo.alt} />
-                    </a>
+                    <Link className='flex items-center gap-2' href='/'>
+                      <Image
+                        src={Logo}
+                        className='max-h-8'
+                        alt='eAuthenticator'
+                        width={32}
+                        height={32}
+                      />
+                      <span className='text-primary text-xl font-medium'>
+                        eAuthenticator
+                      </span>
+                    </Link>
                   </SheetTitle>
                 </SheetHeader>
                 <div className='flex flex-col gap-6 p-4'>
@@ -209,7 +149,6 @@ const Header = ({ className }: HeaderProps) => {
 }
 
 const renderMenuItem = (item: MenuItem) => {
-   
   // const pathname = usePathname();
 
   // function isMenuActive(url: string) {
@@ -218,9 +157,11 @@ const renderMenuItem = (item: MenuItem) => {
 
   if (item.items) {
     return (
-      <NavigationMenuItem key={item.title} className='relative'>
-        <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-        <NavigationMenuContent className='bg-popover text-popover-foreground round-sm absolute top-19 left-0 z-50'>
+      <NavigationMenuItem key={item.title}>
+        <NavigationMenuTrigger className='h-auto rounded-none border-b-[2px] border-b-transparent px-4 pt-[30px] pb-[28px]'>
+          {item.title}
+        </NavigationMenuTrigger>
+        <NavigationMenuContent className='bg-popover text-popover-foreground round-sm z-50'>
           {item.items.map((subItem) => (
             <NavigationMenuLink asChild key={subItem.title} className='w-80'>
               <SubMenuLink item={subItem} />
@@ -232,11 +173,11 @@ const renderMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <NavigationMenuItem key={item.title}>
+    <NavigationMenuItem key={item.title} className=''>
       <NavigationMenuLink
         href={item.url}
         className={cn(
-          'group bg-background hover:bg-muted hover:text-accent-foreground inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors',
+          'group bg-background hover:bg-muted hover:text-accent-foreground inline-flex w-max items-center justify-center rounded-none border-b-[2px] border-b-transparent px-4 pt-[30px] pb-[28px] text-sm font-medium transition-colors',
           {
             // 'text-accent-foreground': isMenuActive(item.url),
           }
@@ -274,7 +215,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
   return (
     <a
-      className='hover:bg-muted hover:text-accent-foreground flex flex-row gap-4 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none'
+      className='hover:bg-muted hover:text-accent-foreground flex flex-row items-center gap-2 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none'
       href={item.url}
     >
       <div className='text-foreground'>{item.icon}</div>

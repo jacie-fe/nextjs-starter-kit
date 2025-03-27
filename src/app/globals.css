@@ -144,3 +144,7 @@
     top: 0px;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}

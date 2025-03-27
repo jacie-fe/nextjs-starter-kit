@@ -49,7 +49,7 @@ const Header = ({ className }: HeaderProps) => {
   }
 
   return (
-    <section className={cn('border-b', className)}>
+    <section className={cn('border-b fixed top-0 z-50 w-full shrink-0 bg-white', className)}>
       <div className='container mx-auto'>
         {/* Desktop Menu */}
         <nav className='hidden justify-between lg:flex'>

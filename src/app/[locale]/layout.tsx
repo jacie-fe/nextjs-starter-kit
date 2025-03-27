@@ -38,9 +38,11 @@ export default async function RootLayout({
     <html lang={locale}>
       <body suppressHydrationWarning>
         <Header />
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <div className='mt-[80px]'>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   )

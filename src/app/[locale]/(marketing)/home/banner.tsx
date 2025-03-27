@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
-import AuthenImage1 from './images/authen1.svg'
+import AuthenImage1 from './images/authen1.png'
 import AuthenImage2 from './images/authen2.svg'
-import AuthenImage3 from './images/authen3.svg'
+import AuthenImage3 from './images/authen3.png'
 import Image from 'next/image'
 
 export default function Banner() {

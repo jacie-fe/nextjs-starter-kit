@@ -41,7 +41,7 @@ export default function DetailFeatures() {
     },
   ]
   return (
-    <div className='flex flex-col gap-15'>
+    <div className='flex flex-col gap-15' id='details-features'>
       <div className='flex flex-col gap-4 sm:flex-row'>
         <SectionLevel
           id='secure-password-storage'

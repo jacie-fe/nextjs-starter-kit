@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react'
 
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
 import {
   Sheet,
   SheetContent,
@@ -47,23 +46,24 @@ export const SideGroup = ({
     }) || []) as unknown as SideLink[]
   }, [items])
 
-  const handleClick = (targetId: string) => {
+  const handleLinktoId = (targetId: string) => {
     window.location.hash = targetId
   }
 
   return (
     <div className={cn('mt-4', className)} {...props}>
-      <div>
-        <Link href={`#${id}`} className='font-[600] text-[#A6A6A6] uppercase'>
-          {title}
-        </Link>
+      <div
+        onClick={() => handleLinktoId(id)}
+        className='font-[600] text-[#A6A6A6] uppercase cursor-pointer hover:text-primary mb-2'
+      >
+        {title}
       </div>
 
       {!!navItems?.length &&
         navItems.map((item) => {
           return (
             <div
-              onClick={() => handleClick(item.id)}
+              onClick={() => handleLinktoId(item.id)}
               key={item.id}
               className='focus-visible:ring-ring hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-full cursor-pointer items-center justify-start rounded-none px-3 py-2 text-sm font-medium text-wrap whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50'
             >
@@ -86,12 +86,24 @@ export const SidebarDocsMobile = ({ items }: { items: SideGroupProps[] }) => {
         </div>
       </SheetTrigger>
       <SheetContent side='bottom' className='p-4'>
-        <div style={{ position: 'absolute', width: '1px', height: '1px', margin: '-1px', padding: '0', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: '0' }}>
+        <div
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            margin: '-1px',
+            padding: '0',
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            whiteSpace: 'nowrap',
+            border: '0',
+          }}
+        >
           <SheetHeader>
             <SheetTitle></SheetTitle>
           </SheetHeader>
         </div>
-         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {items.map((group: any) => (
           <SideGroup
             key={group.title}

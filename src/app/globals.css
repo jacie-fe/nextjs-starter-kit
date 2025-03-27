@@ -148,3 +148,15 @@
 html {
   scroll-behavior: smooth;
 }
+
+:root {
+  --header-height: 80px;
+  --footer-height: 264px;
+}
+.document-heading {
+  @apply mb-6 text-[32px] font-medium sm:mb-10 sm:text-[38px];
+}
+
+.code {
+  @apply rounded-sm bg-gray-200 px-1 text-[15px] font-medium;
+}

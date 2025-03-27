@@ -21,7 +21,7 @@ export const routePaths = {
       importExportAccounts: '/features/import-export-accounts',
       directoryIntegration: '/features/directory-integration',
       userManagement: '/features/user-management',
-      mfa: '/features/mfa',
+      mfa: '/features/multifactor-authentication',
     },
     docs: '/docs',
     support: '/support',

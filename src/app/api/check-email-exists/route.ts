@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 const baseUrl = `${process.env.VITE_API_URL}`
-const url = new URL('/console-api/api/v1/register', baseUrl)
+const url = new URL('/console-api/api/v1/check-email-exists', baseUrl)
 
 export async function POST(req: Request) {
   const body = await req.json()
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     return NextResponse.json(responseData)
   } catch (error) {
     return NextResponse.json(
-      { error: (error as Error).message || 'Signup failed' },
+      { error: (error as Error).message || 'Something went wrong' },
       { status: 500 }
     )
   }

@@ -71,3 +71,31 @@ export const menu: NavigationMenuItem[] = [
     url: routePaths.guest.support,
   },
 ] as const
+
+export const passwordRuleCode = {
+  minLength: {
+    code: 'minLength',
+    regex: /.{8,}/,
+    message: 'Must be at least 8 characters',
+  },
+  number: {
+    code: 'number',
+    regex: /[0-9]/,
+    message: 'Must contain at least one number',
+  },
+  lowercase: {
+    code: 'lowercase',
+    regex: /[a-z]/,
+    message: 'Must contain at least one lowercase letter',
+  },
+  uppercase: {
+    code: 'uppercase',
+    regex: /[A-Z]/,
+    message: 'Must contain at least one uppercase letter',
+  },
+  symbol: {
+    code: 'symbol',
+    regex: /[\W_]/,
+    message: 'Must contain at least one symbol',
+  },
+}

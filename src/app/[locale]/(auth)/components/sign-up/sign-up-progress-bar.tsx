@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
+"use client"
 
-import { CheckIcon } from '@radix-ui/react-icons'
+import { useMemo } from 'react'
 
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
+import { CheckIcon } from 'lucide-react'
 import { SignupSteps } from '@/types/auth'
 
 const StepNumber = ({

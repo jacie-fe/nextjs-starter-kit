@@ -1,8 +1,9 @@
+"use client"
+
 import { HTMLAttributes, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { Button } from '@/components/custom/button'
@@ -21,7 +22,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { routePaths } from '@/constants/routePaths'
 import { cn, sleep } from '@/lib/utils'
 import { SignupData } from '@/types/auth'
 
@@ -144,12 +144,6 @@ export function SetupAccountForm({
 
               <Button type='submit' className='mt-2' loading={isLoading}>
                 Save and Continue
-              </Button>
-            </div>
-            <div className='mt-4 text-sm'>
-              Already have an account?
-              <Button asChild variant='link' className='pl-1'>
-                <Link to={routePaths.guest.signin}>Login</Link>
               </Button>
             </div>
           </form>

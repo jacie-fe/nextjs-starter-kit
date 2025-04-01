@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Button } from '@/components/ui/button'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -31,6 +30,7 @@ import { menu } from '@/lib/constants'
 import { routePaths } from '@/lib/routePaths'
 import { getUserProfile } from '@/data/actions/auth-actions'
 import { UserNav } from './user-nav'
+import { Button } from '../button'
 interface MenuItem {
   title: string
   url: string

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/custom/button'
 import AuthenImage1 from './images/authen1.png'
 import AuthenImage2 from './images/authen2.svg'
 import AuthenImage3 from './images/authen3.png'

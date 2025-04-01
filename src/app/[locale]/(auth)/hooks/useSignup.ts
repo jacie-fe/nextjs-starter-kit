@@ -10,7 +10,7 @@ type UseSignupHook = {
   setData: (data: Partial<SignupData>) => void
 }
 
-const useSignup = (): UseSignupHook => {
+export const useSignup = (): UseSignupHook => {
   // Initializing state for current step and form data
   const [currentStep, setCurrentStep] = useState<SignupSteps>(
     SignupSteps.GetStarted
@@ -68,4 +68,4 @@ const useSignup = (): UseSignupHook => {
   }
 }
 
-export default useSignup
+// export default useSignup

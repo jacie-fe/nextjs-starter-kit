@@ -1,7 +1,7 @@
 "use client";
 import { scrollToTop } from '@/lib/utils'
-import { Button } from '../ui/button'
 import { ArrowUpIcon } from 'lucide-react'
+import { Button } from './button';
 
 export default function ScrollTopButton() {
   const handleScrollToTop = () => {

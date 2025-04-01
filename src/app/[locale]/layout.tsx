@@ -4,6 +4,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/navigation'
 import { notFound } from 'next/navigation'
+import { Toaster } from "@/components/ui/sonner"
 import Header from '@/components/custom/header/header'
 
 export const metadata: Metadata = {
@@ -23,8 +24,6 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>
 }>) {
   const { locale } = await params
-  console.log('locale', locale)
-
   if (!routing.locales.includes(locale as 'en' | 'th')) {
     notFound()
   }
@@ -38,6 +37,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body suppressHydrationWarning>
         <Header />
+        <Toaster richColors />
         <div className='mt-[80px]'>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}

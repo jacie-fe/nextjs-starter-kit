@@ -11,3 +11,16 @@ export const scrollToTop = () => {
     behavior: 'smooth', // Enables smooth scrolling
   })
 }
+
+export function sleep(delay = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true)
+    }, delay)
+  })
+}
+
+export const getInitials = (name?: string) => {
+  if (!name) return ''
+  return name.charAt(0).toUpperCase()
+}

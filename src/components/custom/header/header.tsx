@@ -1,6 +1,4 @@
-import {
-  Menu,
-} from 'lucide-react'
+import { Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -30,7 +28,9 @@ import { cn } from '@/lib/utils'
 // import { usePathname } from 'next/navigation'
 import Logo from '@/assets/logo.svg'
 import { menu } from '@/lib/constants'
-
+import { routePaths } from '@/lib/routePaths'
+import { getUserProfile } from '@/data/actions/auth-actions'
+import { UserNav } from './user-nav'
 interface MenuItem {
   title: string
   url: string
@@ -41,15 +41,23 @@ interface MenuItem {
 
 type HeaderProps = React.HTMLAttributes<HTMLUListElement>
 
-
-const Header = ({ className }: HeaderProps) => {
+const Header = async ({ className }: HeaderProps) => {
   const auth = {
-    login: { title: 'Login', url: '#' },
-    signup: { title: 'Sign up', url: '#' },
+    login: { title: 'Login', url: routePaths.guest.signin },
+    signup: { title: 'Sign up', url: routePaths.guest.signup },
   }
+  const userInfo = await getUserProfile()
+  const isAuthenticated = !!userInfo?.user_id
 
+  console.log("header userInfo", userInfo);
+  
   return (
-    <section className={cn('border-b fixed top-0 z-50 w-full shrink-0 bg-white', className)}>
+    <section
+      className={cn(
+        'fixed top-0 z-50 w-full shrink-0 border-b bg-white',
+        className
+      )}
+    >
       <div className='container mx-auto'>
         {/* Desktop Menu */}
         <nav className='hidden justify-between lg:flex'>
@@ -73,12 +81,18 @@ const Header = ({ className }: HeaderProps) => {
             </NavigationMenu>
           </div>
           <div className='flex items-center gap-2'>
-            <Button asChild variant='outline' size='sm'>
-              <a href={auth.login.url}>{auth.login.title}</a>
-            </Button>
-            <Button asChild size='sm'>
-              <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button>
+            {isAuthenticated ? (
+              <UserNav user={userInfo} />
+            ) : (
+              <div className='flex items-center gap-2'>
+                <Button asChild size='sm' variant='outline'>
+                  <a href={auth.signup.url}>{auth.signup.title}</a>
+                </Button>
+                <Button asChild size='sm'>
+                  <a href={auth.login.url}>{auth.login.title}</a>
+                </Button>
+              </div>
+            )}
           </div>
         </nav>
 
@@ -132,10 +146,10 @@ const Header = ({ className }: HeaderProps) => {
 
                   <div className='flex flex-col gap-3'>
                     <Button asChild variant='outline'>
-                      <a href={auth.login.url}>{auth.login.title}</a>
+                      <a href={auth.signup.url}>{auth.signup.title}</a>
                     </Button>
                     <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
+                      <a href={auth.login.url}>{auth.login.title}</a>
                     </Button>
                   </div>
                 </div>

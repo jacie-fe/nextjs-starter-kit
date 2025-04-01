@@ -18,7 +18,7 @@ export default function Detail() {
           Manage and configure all your domains in a centralized location. You
           can add new domains, update existing ones, and delete domains that are
           no longer in use. This section also provides an overview of each
-          domain&apos;s status and associated authentication configurations.
+          domain’s status and associated authentication configurations.
         </div>
         <div>
           <Image src={ImageConsole} alt='Centralized Domain Management' />

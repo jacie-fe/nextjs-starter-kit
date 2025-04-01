@@ -5,8 +5,8 @@ import { useCopyToClipboard } from 'react-use'
 
 import { cn } from '@/lib/utils'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import { Button } from '../ui/button'
 import { Copy } from 'lucide-react'
+import { Button } from './button'
 interface ClipboardCopyButton
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string

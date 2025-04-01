@@ -5,8 +5,8 @@ export const routePaths = {
   },
   public: {},
   guest: {
-    signin: '/sign-in',
-    signup: '/sign-up',
+    signin: '/signin',
+    signup: '/signup',
     forgotPassword: '/forgot-password',
     home: '/',
     products: {

@@ -1,8 +1,6 @@
 
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import ClipboardCopyButton from '../custom/clipboard-copy-button'
-import { LinkIcon } from 'lucide-react'
+import LinkCopyable from './link-copyable'
 
 interface SectionLevelProps extends React.HTMLAttributes<HTMLDivElement> {
   level?: number
@@ -17,7 +15,6 @@ export default function SectionLevel({
   children,
   className,
 }: SectionLevelProps) {
-  const url = id ? `#${id}` : '';
   if (!id) {
     return (
       <section
@@ -53,22 +50,7 @@ export default function SectionLevel({
         className
       )}
     >
-      <div className='group flex items-end gap-3'>
-        <Link
-          href={`#${id}`}
-          className={cn('ms:text-3xl text-2xl font-medium', {
-            'text-xl': level === 2,
-          })}
-        >
-          {title}
-        </Link>
-        <ClipboardCopyButton
-          value={url}
-          className='opacity-0 group-hover:opacity-100'
-        >
-          <LinkIcon size='20' className='text-black' />
-        </ClipboardCopyButton>
-      </div>
+      <LinkCopyable id={id} title={title} level={level} />
       {children}
     </section>
   )

@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers"
 
 export const ACCESS_TOKEN_KEY = 'access_token'
 export const REFRESH_TOKEN_KEY = 'refresh_token'
@@ -50,7 +50,7 @@ export async function removeToken(key: 'access_token' | 'refresh_token') {
 /**
  * Clear all auth tokens
  */
-export function clearTokens() {
-  removeToken(ACCESS_TOKEN_KEY)
-  removeToken(REFRESH_TOKEN_KEY)
+export async function clearTokens() {
+  await removeToken(ACCESS_TOKEN_KEY)
+  await removeToken(REFRESH_TOKEN_KEY)
 }

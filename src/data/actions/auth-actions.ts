@@ -7,8 +7,21 @@ import {
   registerUserService,
   loginUserService,
   getUserInfoService,
+  LoginUserParams,
 } from '@/data/services/auth-service'
-import { ACCESS_TOKEN_KEY, getToken, REFRESH_TOKEN_KEY, setToken } from '../services/token-service'
+import {
+  ACCESS_TOKEN_KEY,
+  clearTokens,
+  getToken,
+  REFRESH_TOKEN_KEY,
+  setToken,
+} from '@/data/services/token-service'
+import {
+  clearCachedUserInfo,
+  getCachedUserInfo,
+  setCachedUserInfo,
+} from '@/data/services/user-info-service'
+import { CodeResponse } from '@/lib/constants'
 
 const config = {
   maxAge: 60 * 60 * 24 * 7, // 1 week
@@ -77,75 +90,65 @@ export async function registerUserAction(prevState: any, formData: FormData) {
   redirect('/')
 }
 
-const schemaLogin = z.object({
-  email: z.string().min(3, {
-    message: 'Identifier must have at least 3 or more characters',
-  }),
-  password: z
-    .string()
-    .min(6, {
-      message: 'Password must have at least 6 or more characters',
-    })
-    .max(100, {
-      message: 'Password must be between 6 and 100 characters',
-    }),
-})
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function loginUserAction(prevState: any, formData: FormData) {
-  const validatedFields = schemaLogin.safeParse({
-    email: formData.get('email'),
-    password: formData.get('password'),
-  })
+export async function loginUserAction(prevState: any, params: LoginUserParams) {
+  try {
+    const responseData = await loginUserService(params)
 
-  if (!validatedFields.success) {
-    return {
-      ...prevState,
-      zodErrors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Login.',
+    console.log('Login response:', responseData)
+    if(responseData.code !== CodeResponse.SUCCESS) {
+      console.log('Login failed:', responseData?.message);
+      
+      throw new Error(responseData?.message || 'Login failed')
     }
-  }
 
-  const responseData = await loginUserService(validatedFields.data)
+    const token = responseData.data?.token?.access_token
+    const refreshToken = responseData.data?.token?.refresh_token
 
-  if (!responseData) {
+    await setToken(ACCESS_TOKEN_KEY, token)
+    await setToken(REFRESH_TOKEN_KEY, refreshToken)
+
+    // console.log('Access token222:', token)
+
+    // redirect('/')
+
     return {
       ...prevState,
-      strapiErrors: responseData.error,
-      zodErrors: null,
-      message: 'Ops! Something went wrong. Please try again.',
+      strapiErrors: null,
+      message: null,
+      submitSuccess: true,
     }
-  }
-
-  if (responseData.error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     return {
       ...prevState,
-      strapiErrors: responseData.error,
-      zodErrors: null,
+      strapiErrors: error?.response?.data?.message || error?.message,
       message: 'Failed to Login.',
     }
   }
-
-  await setToken(ACCESS_TOKEN_KEY, responseData.data?.token?.access_token)
-  await setToken(REFRESH_TOKEN_KEY, responseData.data?.token?.refresh_token)
-
-  redirect('/')
 }
 
-export async function getUserInfo() {
+export async function getUserProfile() {
   try {
     const accessToken = await getToken(ACCESS_TOKEN_KEY)
-
     if (!accessToken) {
       return null
     }
 
+    const cachedUserInfo = getCachedUserInfo(accessToken)
+    if (cachedUserInfo) {
+      return cachedUserInfo
+    }
+    // If not cached, fetch user info from the service
     const responseData = await getUserInfoService()
 
-    if (!responseData) {
+    if (!responseData?.data) {
       return null
     }
 
+    const userInfo = responseData.data
+    // Cache the user info
+    setCachedUserInfo(accessToken, userInfo)
     return responseData.data
   } catch (error) {
     console.error('Failed to fetch user info:', error)
@@ -154,7 +157,14 @@ export async function getUserInfo() {
 }
 
 export async function logoutAction() {
-  const cookieStore = await cookies()
-  cookieStore.set('jwt', '', { ...config, maxAge: 0 })
-  redirect('/')
+  // Clear tokens from the cache
+  const accessToken = await getToken(ACCESS_TOKEN_KEY)
+  if (accessToken) {
+    clearCachedUserInfo(accessToken)
+  }
+  // Clear tokens from cookies
+  await clearTokens()
+
+  // Redirect to the login page
+  redirect('/signin')
 }

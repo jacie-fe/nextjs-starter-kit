@@ -12,7 +12,6 @@ async function fetchClient<T>(
   options: RequestInit = {},
   shouldRefresh = true
 ): Promise<T> {
-  await refreshAccessToken()
   const accessToken = await getToken(ACCESS_TOKEN_KEY)
 
   const headers: HeadersInit = {
@@ -48,6 +47,8 @@ async function refreshAccessToken() {
   try {
     const refreshToken = await getToken(REFRESH_TOKEN_KEY)
 
+    console.log('Refresh token:', refreshToken);
+    
     if (!refreshToken) throw new Error('No refresh token available')
 
     const res = await fetch(

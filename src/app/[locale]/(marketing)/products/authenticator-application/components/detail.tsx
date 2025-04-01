@@ -20,7 +20,7 @@ export default function Detail() {
         <div>
           Manage and configure all your domains in a centralized portal. You can
           add new domains, update existing ones, and delete domains that are no
-          longer in use. This section also provides an overview of each domain&apos;s
+          longer in use. This section also provides an overview of each domain’s
           status and associated authentication configurations.
         </div>
       </SectionLevel>

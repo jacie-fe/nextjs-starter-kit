@@ -1,4 +1,4 @@
-import { UserInfo } from '@/types/global'
+import { UserProfile } from '@/types/global'
 import { api } from './fetch-client'
 import { ApiResponse } from '@/types/api'
 
@@ -8,7 +8,7 @@ interface RegisterUserProps {
   email: string
 }
 
-interface LoginUserProps {
+export interface LoginUserParams {
   email: string
   password: string
 }
@@ -34,7 +34,7 @@ export async function registerUserService(userData: RegisterUserProps) {
   }
 }
 
-export async function loginUserService(userData: LoginUserProps) {
+export async function loginUserService(userData: LoginUserParams) {
   const url = new URL('/console-api/api/v1/signin', baseUrl)
 
   try {
@@ -54,13 +54,21 @@ export async function loginUserService(userData: LoginUserProps) {
   }
 }
 
+export async function signin(params) {
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    body: JSON.stringify(params),
+    cache: 'no-cache',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  const resData = await res.json()
+
+  console.log(resData);
+  return resData
+
+}
+
 export async function getUserInfoService() {
   const url = new URL('/console-api/api/v1/user-info', baseUrl)
-
-  try {
-    const response = await api.get<ApiResponse<UserInfo>>(url.toString())
-    return response
-  } catch (error) {
-    console.error('Get User Info Service Error:', error)
-  }
+  return api.get<ApiResponse<UserProfile>>(url.toString())
 }

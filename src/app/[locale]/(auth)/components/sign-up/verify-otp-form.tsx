@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { routePaths } from '@/lib/routePaths'
+import { resendOtp, verifySigupOtp } from '@/data/services/client/auth-service'
 
 interface VerifyOtpFormProps extends HTMLAttributes<HTMLDivElement> {
   email: string
@@ -63,7 +64,7 @@ export function VerifyOtpForm({
     try {
       setIsLoading(true)
       const payload = { email, otp: data.otp }
-    //   await verifySigupOtp(payload)
+      await verifySigupOtp(payload)
       onNext?.()
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,7 +77,7 @@ export function VerifyOtpForm({
 
   const handleResendOtp = async () => {
     try {
-    //   await resendOtp({ email })
+      await resendOtp({ email })
       // Reset timer after sending OTP
       setTimeLeft(30)
       setIsResendDisabled(true)
@@ -169,12 +170,6 @@ export function VerifyOtpForm({
                     Resend
                   </Button>
                 )}
-              </div>
-
-              <div className=''>
-                <Button asChild variant='link' className='p-0'>
-                  <Link href={routePaths.guest.signin}>Back to Login</Link>
-                </Button>
               </div>
             </form>
           </Form>

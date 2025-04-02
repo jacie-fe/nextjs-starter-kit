@@ -192,7 +192,7 @@ export function SetPasswordForm({
                 )}
               />
               {form.formState.errors?.root && (
-                <div className='error-message'>
+                <div className='ea-error-message'>
                   {form.formState.errors?.root?.message}
                 </div>
               )}

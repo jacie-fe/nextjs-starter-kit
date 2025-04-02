@@ -55,7 +55,8 @@ export function SetupEmailForm({ data, onNext }: SetupEmailFormProps) {
     try {
       setLoading(true)
       await sleep(500)
-        const { exists } = await checkEmailExists(data)
+      const { data: response } = await checkEmailExists(data)
+      const { exists } = response
       if (!exists) {
         return onNext(data)
       }

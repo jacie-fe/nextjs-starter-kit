@@ -1,5 +1,6 @@
 'use client'
 import { CodeResponse } from '@/lib/constants'
+import { ApiResponse } from '@/types/api'
 
 interface RegisterUserParams {
   email: string
@@ -7,7 +8,7 @@ interface RegisterUserParams {
   organization_name: string
 }
 
-export interface SigninUserParams {
+interface SigninUserParams {
   email: string
   password: string
 }
@@ -20,7 +21,9 @@ async function signin(params: SigninUserParams) {
       cache: 'no-cache',
       headers: { 'Content-Type': 'application/json' },
     })
-    const { data, code, message } = await response.json()
+
+    const responseData = await response.json()
+    const { code, message } = responseData
 
     if (code !== CodeResponse.SUCCESS) {
       if (code === CodeResponse.INTERNAL_SERVER_ERROR) {
@@ -29,13 +32,15 @@ async function signin(params: SigninUserParams) {
       throw new Error(message || 'Login failed')
     }
 
-    return data
+    return responseData
   } catch (error) {
     throw error
   }
 }
 
-async function checkEmailExists(params: { email: string }) {
+async function checkEmailExists(params: {
+  email: string
+}): Promise<ApiResponse<{ exists: boolean }>> {
   try {
     const response = await fetch('/api/check-email-exists', {
       method: 'POST',
@@ -44,11 +49,13 @@ async function checkEmailExists(params: { email: string }) {
       headers: { 'Content-Type': 'application/json' },
     })
 
-    const { data, code, message } = await response.json()
-    if (code !== CodeResponse.SUCCESS) {
-      throw new Error(message || 'Email check failed')
+    const responseData = await response.json()
+
+    if (responseData.code !== CodeResponse.SUCCESS) {
+      throw responseData
     }
-    return data
+
+    return responseData as ApiResponse<{ exists: boolean }>
   } catch (error) {
     return Promise.reject(error)
   }
@@ -56,25 +63,75 @@ async function checkEmailExists(params: { email: string }) {
 
 async function signup(params: RegisterUserParams) {
   try {
-    const response = await fetch('/api/signup', {
+    const response = await fetch('/api/register', {
       method: 'POST',
       body: JSON.stringify(params),
       cache: 'no-cache',
       headers: { 'Content-Type': 'application/json' },
     })
-    const { data, code, message } = await response.json()
+    const responseData = await response.json()
+    const { data, code, message } = responseData
 
     if (code !== CodeResponse.SUCCESS) {
       if (code === CodeResponse.INTERNAL_SERVER_ERROR) {
         throw new Error('Username or password is incorrect')
       }
-      throw new Error(message || 'Login failed')
+      throw new Error(message)
     }
 
-    return data
+    return responseData
   } catch (error) {
     throw error
   }
 }
 
-export { signin, checkEmailExists, signup }
+async function verifySigupOtp(params: { email: string; otp: string }): Promise<
+  ApiResponse<{
+    email: string
+    organization_name: string
+  }>
+> {
+  try {
+    const response = await fetch('/api/register/otp/verify', {
+      method: 'POST',
+      body: JSON.stringify(params),
+      cache: 'no-cache',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const responseData = await response.json()
+
+    if (responseData.code !== CodeResponse.SUCCESS) {
+      throw responseData
+    }
+
+    return responseData as ApiResponse<{
+      email: string
+      organization_name: string
+    }>
+  } catch (error) {
+    throw error
+  }
+}
+
+async function resendOtp(params: { email: string }) {
+  try {
+    const response = await fetch('/api/resend-otp', {
+      method: 'POST',
+      body: JSON.stringify(params),
+      cache: 'no-cache',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const responseData = await response.json()
+
+    if (responseData.code !== CodeResponse.SUCCESS) {
+      throw responseData
+    }
+
+    return responseData
+  } catch (error) {
+    throw error
+  }
+}
+
+export { signin, checkEmailExists, signup, verifySigupOtp, resendOtp }
+export type { RegisterUserParams, SigninUserParams }

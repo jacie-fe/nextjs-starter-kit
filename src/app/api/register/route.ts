@@ -1,3 +1,5 @@
+export const runtime = "edge"; // Run on Edge for lower latency
+
 import { NextResponse } from 'next/server'
 
 const baseUrl = `${process.env.VITE_API_URL}`

@@ -54,7 +54,6 @@ export function SetupEmailForm({ data, onNext }: SetupEmailFormProps) {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setLoading(true)
-      await sleep(500)
       const { data: response } = await checkEmailExists(data)
       const { exists } = response
       if (!exists) {

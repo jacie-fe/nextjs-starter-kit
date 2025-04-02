@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useLocation } from 'react-use'
 
 export default function ScrollHandler() {
-  const location = useLocation()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const location = typeof window !== 'undefined' ? window.location : { hash: '' }
   const hash = location.hash
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function ScrollHandler() {
   return null
 }
 
-export function scrollToHash(hash: string) {
+function scrollToHash(hash: string) {
   // When the location changes (due to hash change)
   if (hash) {
     const element = document.querySelector(hash)

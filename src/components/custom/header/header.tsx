@@ -1,6 +1,5 @@
 import { Menu } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import {
   Accordion,
@@ -12,7 +11,6 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
@@ -31,6 +29,7 @@ import { routePaths } from '@/lib/routePaths'
 import { getUserProfile } from '@/data/actions/auth-actions'
 import { UserNav } from './user-nav'
 import { Button } from '../button'
+import { Link } from '@/i18n/navigation'
 interface MenuItem {
   title: string
   url: string
@@ -49,8 +48,6 @@ const Header = async ({ className }: HeaderProps) => {
   const userInfo = await getUserProfile()
   const isAuthenticated = !!userInfo?.user_id
 
-  console.log("header userInfo", userInfo);
-  
   return (
     <section
       className={cn(
@@ -86,10 +83,10 @@ const Header = async ({ className }: HeaderProps) => {
             ) : (
               <div className='flex items-center gap-2'>
                 <Button asChild size='sm' variant='outline'>
-                  <a href={auth.signup.url}>{auth.signup.title}</a>
+                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
                 </Button>
                 <Button asChild size='sm'>
-                  <a href={auth.login.url}>{auth.login.title}</a>
+                  <Link href={auth.login.url}>{auth.login.title}</Link>
                 </Button>
               </div>
             )}
@@ -177,9 +174,9 @@ const renderMenuItem = (item: MenuItem) => {
         </NavigationMenuTrigger>
         <NavigationMenuContent className='bg-popover text-popover-foreground round-sm z-50'>
           {item.items.map((subItem) => (
-            <NavigationMenuLink asChild key={subItem.title} className='w-80'>
-              <SubMenuLink item={subItem} />
-            </NavigationMenuLink>
+            // <NavigationMenuLink asChild key={subItem.title} className='w-80'>
+              <SubMenuLink item={subItem} key={subItem.title}/>
+            // </NavigationMenuLink>
           ))}
         </NavigationMenuContent>
       </NavigationMenuItem>
@@ -188,7 +185,7 @@ const renderMenuItem = (item: MenuItem) => {
 
   return (
     <NavigationMenuItem key={item.title} className=''>
-      <NavigationMenuLink
+      <Link
         href={item.url}
         className={cn(
           'group bg-background hover:bg-muted hover:text-accent-foreground inline-flex w-max items-center justify-center rounded-none border-b-[2px] border-b-transparent px-4 pt-[30px] pb-[28px] text-sm font-medium transition-colors',
@@ -198,7 +195,7 @@ const renderMenuItem = (item: MenuItem) => {
         )}
       >
         {item.title}
-      </NavigationMenuLink>
+      </Link>
     </NavigationMenuItem>
   )
 }
@@ -227,12 +224,14 @@ const renderMobileMenuItem = (item: MenuItem) => {
 }
 
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
+  console.log("SubMenuLink item", item);
+  
   return (
-    <a
+    <Link
       className='hover:bg-muted hover:text-accent-foreground flex flex-row items-center gap-2 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none'
       href={item.url}
-    >
-      <div className='text-foreground'>{item.icon}</div>
+    >{item.title}
+      {/* <div className='text-foreground'>{item.icon}</div>
       <div>
         <div className='text-sm font-semibold'>{item.title}</div>
         {item.description && (
@@ -240,8 +239,8 @@ const SubMenuLink = ({ item }: { item: MenuItem }) => {
             {item.description}
           </p>
         )}
-      </div>
-    </a>
+      </div> */}
+    </Link>
   )
 }
 

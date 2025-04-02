@@ -1,4 +1,7 @@
-import { SideGroup, SidebarDocsMobile } from '@/components/static-layout/sidebar-docs'
+import {
+  SideGroup,
+  SidebarDocsMobile,
+} from '@/components/static-layout/sidebar-docs'
 import { cn } from '@/lib/utils'
 import ScrollHandler from '../custom/scroll-handler'
 import ScrollTopButton from '../custom/scroll-top-button'
@@ -12,7 +15,6 @@ export default function DocumentLayout({
   sidebarItems,
   children,
 }: DocumentLayoutProps) {
-
   return (
     <>
       {/* Menu trigger for mobile */}

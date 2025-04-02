@@ -1,8 +1,9 @@
+"use client"
+
 import { HTMLAttributes, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { Button } from '@/components/custom/button'
@@ -22,12 +23,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { passwordRuleCode } from '@/constants/password'
-import { routePaths } from '@/constants/routePaths'
-import { cn, sleep } from '@/lib/utils'
-import { authService } from '@/services'
+import { cn } from '@/lib/utils'
 import { ForgotPassRequestParams, ForgotPasswordData } from '@/types/auth'
-
+import { passwordRuleCode } from '@/lib/constants'
+import { verifyForgotPasswordOtp } from '@/data/services/client/auth-service'
 interface ResetPasswordFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<ForgotPasswordData>
   onNext: (data: unknown) => void
@@ -79,14 +78,13 @@ export function ResetPasswordForm({
     try {
       setIsLoading(true)
       setCommonError(null)
-      await sleep()
       const payload: ForgotPassRequestParams = {
         email: data.email!,
         password: dataForm.password,
         password_confirmation: dataForm.password_confirm,
         otp: dataForm.otp,
       }
-      await authService.verifyForgotPasswordOtp(payload)
+      await verifyForgotPasswordOtp(payload)
       form.reset()
       onNext?.(dataForm)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -177,12 +175,6 @@ export function ResetPasswordForm({
               )}
               <Button type='submit' className='mt-2 flex-1' loading={isLoading}>
                 Change Password
-              </Button>
-            </div>
-            <div className='mt-4 text-sm'>
-              Already have an account?
-              <Button asChild variant='link' className='pl-1'>
-                <Link to={routePaths.guest.signin}>Login</Link>
               </Button>
             </div>
           </form>

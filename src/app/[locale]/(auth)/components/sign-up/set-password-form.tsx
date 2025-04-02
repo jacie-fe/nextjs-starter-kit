@@ -83,7 +83,6 @@ export function SetPasswordForm({
   const onSubmit = async (dataForm: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true)
-      await sleep()
       const payload: SignupRequestParams = {
         email: data.email!,
         password: dataForm.password,

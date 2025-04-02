@@ -13,6 +13,13 @@ interface SigninUserParams {
   password: string
 }
 
+interface ForgotPassRequestParams {
+  email: string
+  password: string
+  password_confirmation: string
+  otp: string
+}
+
 async function signin(params: SigninUserParams) {
   try {
     const response = await fetch('/api/login', {
@@ -34,7 +41,7 @@ async function signin(params: SigninUserParams) {
 
     return responseData
   } catch (error) {
-    throw error
+    return Promise.reject(error)
   }
 }
 
@@ -81,7 +88,7 @@ async function signup(params: RegisterUserParams) {
 
     return responseData
   } catch (error) {
-    throw error
+    return Promise.reject(error)
   }
 }
 
@@ -109,7 +116,7 @@ async function verifySigupOtp(params: { email: string; otp: string }): Promise<
       organization_name: string
     }>
   } catch (error) {
-    throw error
+    return Promise.reject(error)
   }
 }
 
@@ -129,9 +136,58 @@ async function resendOtp(params: { email: string }) {
 
     return responseData
   } catch (error) {
-    throw error
+    return Promise.reject(error)
   }
 }
 
-export { signin, checkEmailExists, signup, verifySigupOtp, resendOtp }
+async function forgotPassword(params: { email: string }) {
+  try {
+    const response = await fetch('/api/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify(params),
+      cache: 'no-cache',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const responseData = await response.json()
+
+    if (responseData.code !== CodeResponse.SUCCESS) {
+      throw responseData
+    }
+
+    return responseData
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+async function verifyForgotPasswordOtp(params: { email: string }) {
+  try {
+    const response = await fetch('/api/forgot-password/otp/verify', {
+      method: 'POST',
+      body: JSON.stringify(params),
+      cache: 'no-cache',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const responseData = await response.json()
+
+    if (responseData.code !== CodeResponse.SUCCESS) {
+      throw responseData
+    }
+
+    return responseData
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export {
+  signin,
+  checkEmailExists,
+  signup,
+  verifySigupOtp,
+  resendOtp,
+  forgotPassword,
+  verifyForgotPasswordOtp,
+}
+export type { ForgotPassRequestParams }
 export type { RegisterUserParams, SigninUserParams }

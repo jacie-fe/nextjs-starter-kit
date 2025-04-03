@@ -28,6 +28,7 @@ import { menu } from '@/lib/constants'
 import { UserNav } from './user-nav'
 import { Button } from '../button'
 import { Link } from '@/i18n/navigation'
+import { RightMenu } from './right-menu'
 interface MenuItem {
   title: string
   url: string

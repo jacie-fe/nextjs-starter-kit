@@ -1,7 +1,7 @@
 export const routePaths = {
   private: {
-    applications: '/console',
-    applicationDetail: '/console/:id',
+    applications: '/console/applications',
+    applicationDetail: '/console/applications/:id',
   },
   public: {},
   guest: {

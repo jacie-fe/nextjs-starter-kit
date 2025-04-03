@@ -25,7 +25,8 @@ export async function middleware(request: NextRequest) {
 
   if (!access_token) {
     if (isProtectedRoute(currentPath)) {
-      return NextResponse.redirect(new URL('/signin', request.url))
+      const returnUrl = encodeURIComponent(currentPath)
+      return NextResponse.redirect(new URL(`/signin?returnUrl=${returnUrl}`, request.url))
     }
   }
 

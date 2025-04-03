@@ -26,7 +26,7 @@ import { cn } from '@/lib/utils'
 import { ForgotPasswordData } from '@/types/auth'
 import LockQuestionIcon from '@/assets/lock-question.svg'
 import Image from 'next/image'
-import { forgotPassword } from '@/data/services/client/auth-service'
+import { forgotPassword } from '@/app/actions/auth'
 
 interface ProvideEmailFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<ForgotPasswordData>
@@ -57,7 +57,7 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
       onNext(data)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setCommonError(error?.response?.data?.message || error?.message)
+      setCommonError(error?.message || 'Something went wrong')
     } finally {
       setLoading(false)
     }

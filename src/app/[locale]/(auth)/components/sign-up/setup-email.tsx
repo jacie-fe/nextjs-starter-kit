@@ -24,10 +24,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useErrorHandler } from '@/hooks/use-error-handler'
-import { cn, sleep } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { SignupData } from '@/types/auth'
 import Image from 'next/image'
-import { checkEmailExists } from '@/data/services/client/auth-service'
+import { checkEmailExists } from '@/app/actions/auth'
 
 interface SetupEmailFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<SignupData>

@@ -23,10 +23,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { cn, sleep } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { passwordRuleCode } from '@/lib/constants'
 import { SignupData, SignupRequestParams } from '@/types/auth'
-import { signup } from '@/data/services/client/auth-service'
+import { register } from '@/app/actions/auth'
 
 interface SetPasswordFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<SignupData>
@@ -90,7 +90,7 @@ export function SetPasswordForm({
         last_name: data.last_name!,
         organization_name: data.organization_name!,
       }
-      await signup(payload)
+      await register(payload)
 
       form.reset()
       onNext?.(dataForm)

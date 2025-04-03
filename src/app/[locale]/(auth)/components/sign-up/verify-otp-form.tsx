@@ -24,9 +24,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
-import Link from 'next/link'
-import { routePaths } from '@/lib/routePaths'
-import { resendOtp, verifySigupOtp } from '@/data/services/client/auth-service'
+import { resendOtp, verifySigupOtp } from '@/app/actions/auth'
 
 interface VerifyOtpFormProps extends HTMLAttributes<HTMLDivElement> {
   email: string

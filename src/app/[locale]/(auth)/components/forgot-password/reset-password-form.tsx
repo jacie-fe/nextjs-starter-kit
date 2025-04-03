@@ -26,7 +26,7 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { ForgotPassRequestParams, ForgotPasswordData } from '@/types/auth'
 import { passwordRuleCode } from '@/lib/constants'
-import { verifyForgotPasswordOtp } from '@/data/services/client/auth-service'
+import { resetPassword } from '@/app/actions/auth'
 interface ResetPasswordFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<ForgotPasswordData>
   onNext: (data: unknown) => void
@@ -84,13 +84,12 @@ export function ResetPasswordForm({
         password_confirmation: dataForm.password_confirm,
         otp: dataForm.otp,
       }
-      await verifyForgotPasswordOtp(payload)
+      await resetPassword(payload)
       form.reset()
       onNext?.(dataForm)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      console.log(err)
-      setCommonError(err?.response?.data?.message || err?.message)
+      setCommonError(err?.message || 'Something went wrong')
     } finally {
       setIsLoading(false)
     }

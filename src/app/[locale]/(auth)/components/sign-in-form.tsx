@@ -20,7 +20,9 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { routePaths } from '@/lib/routePaths'
 import { Button } from '@/components/custom/button'
-import { signin } from '@/data/services/client/auth-service'
+import { signInAction } from '@/app/actions/auth'
+import { useRouter } from '@/i18n/navigation'
+import { useAuth } from '@/providers/auth'
 
 type SigninFormProps = HTMLAttributes<HTMLDivElement>
 
@@ -35,6 +37,8 @@ const formSchema = z.object({
 })
 
 export function SigninForm({ className, ...props }: SigninFormProps) {
+  const router = useRouter()
+  const { getUserInfo } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,9 +52,9 @@ export function SigninForm({ className, ...props }: SigninFormProps) {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true)
-      await signin(data)
-      window.location.href = routePaths.guest.home
-
+      await signInAction(data)
+      await getUserInfo()
+      router.push(routePaths.guest.home)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       form.setError('root', { message: error?.message })

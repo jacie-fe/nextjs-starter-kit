@@ -25,8 +25,6 @@ import { cn } from '@/lib/utils'
 // import { usePathname } from 'next/navigation'
 import Logo from '@/assets/logo.svg'
 import { menu } from '@/lib/constants'
-import { routePaths } from '@/lib/routePaths'
-import { getUserProfile } from '@/data/actions/auth-actions'
 import { UserNav } from './user-nav'
 import { Button } from '../button'
 import { Link } from '@/i18n/navigation'
@@ -40,14 +38,7 @@ interface MenuItem {
 
 type HeaderProps = React.HTMLAttributes<HTMLUListElement>
 
-const Header = async ({ className }: HeaderProps) => {
-  const auth = {
-    login: { title: 'Login', url: routePaths.guest.signin },
-    signup: { title: 'Sign up', url: routePaths.guest.signup },
-  }
-  const userInfo = await getUserProfile()
-  const isAuthenticated = !!userInfo?.user_id
-
+const Header = ({ className }: HeaderProps) => {
   return (
     <section
       className={cn(
@@ -78,18 +69,7 @@ const Header = async ({ className }: HeaderProps) => {
             </NavigationMenu>
           </div>
           <div className='flex items-center gap-2'>
-            {isAuthenticated ? (
-              <UserNav user={userInfo} />
-            ) : (
-              <div className='flex items-center gap-2'>
-                <Button asChild size='sm' variant='outline'>
-                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                </Button>
-                <Button asChild size='sm'>
-                  <Link href={auth.login.url}>{auth.login.title}</Link>
-                </Button>
-              </div>
-            )}
+            <UserNav />
           </div>
         </nav>
 
@@ -141,14 +121,14 @@ const Header = async ({ className }: HeaderProps) => {
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
 
-                  <div className='flex flex-col gap-3'>
+                  {/* <div className='flex flex-col gap-3'>
                     <Button asChild variant='outline'>
                       <a href={auth.signup.url}>{auth.signup.title}</a>
                     </Button>
                     <Button asChild>
                       <a href={auth.login.url}>{auth.login.title}</a>
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </SheetContent>
             </Sheet>
@@ -174,9 +154,7 @@ const renderMenuItem = (item: MenuItem) => {
         </NavigationMenuTrigger>
         <NavigationMenuContent className='bg-popover text-popover-foreground round-sm z-50'>
           {item.items.map((subItem) => (
-            // <NavigationMenuLink asChild key={subItem.title} className='w-80'>
-              <SubMenuLink item={subItem} key={subItem.title}/>
-            // </NavigationMenuLink>
+            <SubMenuLink item={subItem} key={subItem.title} />
           ))}
         </NavigationMenuContent>
       </NavigationMenuItem>
@@ -224,22 +202,12 @@ const renderMobileMenuItem = (item: MenuItem) => {
 }
 
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
-  console.log("SubMenuLink item", item);
-  
   return (
     <Link
       className='hover:bg-muted hover:text-accent-foreground flex flex-row items-center gap-2 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none'
       href={item.url}
-    >{item.title}
-      {/* <div className='text-foreground'>{item.icon}</div>
-      <div>
-        <div className='text-sm font-semibold'>{item.title}</div>
-        {item.description && (
-          <p className='text-muted-foreground text-sm leading-snug'>
-            {item.description}
-          </p>
-        )}
-      </div> */}
+    >
+      {item.title}
     </Link>
   )
 }

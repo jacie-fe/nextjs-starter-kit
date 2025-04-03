@@ -6,6 +6,7 @@ import { routing } from '@/i18n/navigation'
 import { notFound } from 'next/navigation'
 import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/custom/header/header'
+import { AuthProvider } from '@/providers/auth'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -37,9 +38,11 @@ export default async function RootLayout({
     <html lang={locale}>
       <body suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          <Toaster richColors />
-          <div className='mt-[80px]'>{children}</div>
+          <AuthProvider>
+            <Header />
+            <Toaster richColors />
+            <div className='mt-[80px]'>{children}</div>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

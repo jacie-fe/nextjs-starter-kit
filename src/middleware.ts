@@ -2,12 +2,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import createMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/navigation'
-import { getUserProfile } from './data/actions/auth-actions'
-import {
-  ACCESS_TOKEN_KEY,
-  REFRESH_TOKEN_KEY,
-} from './data/services/token-service'
-
 const intlMiddleware = createMiddleware(routing)
 
 const protectedRoutes = ['/console']
@@ -24,30 +18,19 @@ function isPublicRoute(path: string): boolean {
   return publicRoutes.some((route) => path.startsWith(route))
 }
 
-export async function middleware(request: NextRequest, response: NextResponse) {
+export async function middleware(request: NextRequest) {
   const currentPath = request.nextUrl.pathname
-console.log("middleware");
 
-  let user = null
-  try {
-    user = await getUserProfile()
-  } catch (error) {
-    console.error('Error fetching user info:', error)
-  }
-  console.log('User info:', user);
-  
+  const access_token = request.cookies.get('access_token')?.value
 
-  if (!user?.user_id) {
-    console.log("User not logged in, clearing cookies");
-    
-    response.cookies?.set(ACCESS_TOKEN_KEY, '', { maxAge: 0 })
-    response.cookies?.set(REFRESH_TOKEN_KEY, '', { maxAge: 0 })
+  if (!access_token) {
     if (isProtectedRoute(currentPath)) {
       return NextResponse.redirect(new URL('/signin', request.url))
     }
   }
 
-  if (isPublicRoute(currentPath) && user && user.user_id) {
+  if (isPublicRoute(currentPath) && access_token) {
+    // User is logged in and trying to access a public route, redirect to home
     return NextResponse.redirect(new URL('/', request.url))
   }
 

@@ -23,7 +23,7 @@ const SuccessScreen = ({ title, description }: SuccessScreenProps) => {
           />
         </CardTitle>
       </CardHeader>
-      <div className='my-8'>
+      <div className='my-6'>
         <div className='text-center'>{description}</div>
       </div>
       <div className='flex justify-center'>

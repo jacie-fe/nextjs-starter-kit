@@ -84,10 +84,18 @@ function serverApi(baseUrl: string) {
     })
   }
 
+  function del<TData = unknown>(path: string, init?: RequestInit) {
+    return request<TData>(path, {
+      ...init,
+      method: 'DELETE',
+    })
+  }
+
   return {
     get,
     post,
     patch,
+    delete: del,
   }
 }
 

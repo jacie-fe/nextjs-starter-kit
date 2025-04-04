@@ -46,7 +46,7 @@ const ClipboardCopyButton = React.forwardRef<
             {...props}
             onClick={handleCopy}
           >
-            {children ? children : <Copy size={20} />}
+            {children ? children : <Copy size={16} />}
           </Button>
         </TooltipTrigger>
         <TooltipContent sticky='always' className='bg-gray-800'>

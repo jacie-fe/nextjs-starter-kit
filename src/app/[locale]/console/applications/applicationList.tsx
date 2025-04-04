@@ -1,10 +1,7 @@
-"use client"
+'use client'
 
 import { useRef, useState } from 'react'
-
 import { useQueryClient } from '@tanstack/react-query'
-import { useTranslations } from 'use-intl'
-
 import ApplicationFormDialog, {
   ApplicationFormDialogRef,
 } from './components/application-form-dialog'
@@ -14,13 +11,13 @@ import ConfirmationDialog from '@/components/custom/confirmation-dialog'
 import { Layout } from '@/components/custom/layout'
 import {
   applicationKeys,
-//   useDeleteApplication,
+  useDeleteApplication,
   useQueryApplications,
 } from '@/hooks/use-application'
 import { UseDialogRef } from '@/hooks/use-dialog'
 import { useErrorHandler } from '@/hooks/use-error-handler'
 import { Application } from '@/types/application'
-import { useRouter } from '@/i18n/navigation'
+import { toast } from 'sonner'
 
 const ApplicationList = () => {
   const { data: applications = [], isFetching } = useQueryApplications()
@@ -33,27 +30,24 @@ const ApplicationList = () => {
   const queryClient = useQueryClient()
 
   const { showErrorToast } = useErrorHandler()
-//   const { mutate: deleteApplication, isPending: isDeletingApp } =
-//     useDeleteApplication({
-//       onSuccess(_, id) {
-//         queryClient.setQueryData<Application[]>(
-//           applicationKeys.lists(),
-//           (oldData = []) => {
-//             return oldData.filter((item) => item.client_id !== id)
-//           }
-//         )
-//         // toast({
-//         //   title: t('delete_application_success'),
-//         //   variant: 'success',
-//         // })
+  const { mutate: deleteApplication, isPending: isDeletingApp } =
+    useDeleteApplication({
+      onSuccess(_, id) {
+        queryClient.setQueryData<Application[]>(
+          applicationKeys.lists(),
+          (oldData = []) => {
+            return oldData.filter((item) => item.client_id !== id)
+          }
+        )
+        toast.success('Application deleted successfully')
 
-//         setCurrentApplication(null)
-//         confirmationDialogRef.current?.closeDialog()
-//       },
-//       onError(err) {
-//         showErrorToast({ err })
-//       },
-//     })
+        setCurrentApplication(null)
+        confirmationDialogRef.current?.closeDialog()
+      },
+      onError(err) {
+        showErrorToast({ error: err })
+      },
+    })
   const handleOpenAddDialog = () => {
     setCurrentApplication(null)
     appVersionFormDialogRef.current?.openDialog()
@@ -69,9 +63,9 @@ const ApplicationList = () => {
     confirmationDialogRef.current?.openDialog()
   }
 
-//   const handleConfirmDialog = () => {
-//     if (currentApplication) deleteApplication(currentApplication.client_id)
-//   }
+  const handleConfirmDialog = () => {
+    if (currentApplication) deleteApplication(currentApplication.client_id)
+  }
 
   const handleOpenChangeDialog = (open: boolean) => {
     if (!open) setCurrentApplication(null)
@@ -99,16 +93,14 @@ const ApplicationList = () => {
           ref={appVersionFormDialogRef}
           application={currentApplication}
         />
-        {/* <ConfirmationDialog
+        <ConfirmationDialog
           ref={confirmationDialogRef}
-          title={t('delete_application_title')}
-          description={t('delete_application_desc', {
-            app: currentApplication?.application_name || '',
-          })}
+          title='Delete Application'
+          description={`Are you sure you want to delete application ’${currentApplication?.application_name}’`}
           isConfirming={isDeletingApp}
           onConfirm={handleConfirmDialog}
           onOpenChange={handleOpenChangeDialog}
-        /> */}
+        />
       </Layout.Body>
     </Layout>
   )

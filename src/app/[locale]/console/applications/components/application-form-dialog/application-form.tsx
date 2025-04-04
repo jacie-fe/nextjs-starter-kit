@@ -23,15 +23,12 @@ import {
 } from '@/components/ui/popover'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-// import { toast } from '@/components/ui/use-toast'
-// import {
-//   useAddApplication,
-//   useUpdateApplication,
-// } from '@/hooks/use-application'
 import { useErrorHandler } from '@/hooks/use-error-handler'
 import { randomApiKey } from '@/lib/utils'
 import { Application } from '@/types/application'
 import { CircleHelp } from 'lucide-react'
+import { useAddApplication, useUpdateApplication } from '@/hooks/use-application'
+import { toast } from 'sonner'
 
 interface ApplicationFormProps {
   application: Application | null
@@ -44,10 +41,10 @@ const ApplicationForm = ({
   onCloseClick,
   onSuccess,
 }: ApplicationFormProps) => {
-  // const { mutateAsync: createApplication, isPending: isAdding } =
-  //   useAddApplication()
-  // const { mutateAsync: updateApplication, isPending: isEditing } =
-  //   useUpdateApplication()
+  const { mutateAsync: createApplication, isPending: isAdding } =
+    useAddApplication()
+  const { mutateAsync: updateApplication, isPending: isEditing } =
+    useUpdateApplication()
 
   const formSchema = getFormSchema()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -73,23 +70,20 @@ const ApplicationForm = ({
         ..._data,
         is_active: _data.is_active === '1',
       }
-      // if (application?.client_id) {
-      //   await updateApplication({
-      //     client_id: application.client_id,
-      //     api_key: application.api_key,
-      //     ...data,
-      //   })
-      // } else {
-      //   const payload = {
-      //     ...data,
-      //     api_key: randomApiKey(),
-      //   }
-      //   await createApplication(payload)
-      // }
-      // toast({
-      //   title: t('update_application_success'),
-      //   variant: 'success',
-      // })
+      if (application?.client_id) {
+        await updateApplication({
+          client_id: application.client_id,
+          api_key: application.api_key,
+          ...data,
+        })
+      } else {
+        const payload = {
+          ...data,
+          api_key: randomApiKey(),
+        }
+        await createApplication(payload)
+      }
+      toast.success("Application saved successfully")
       onSuccess?.()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -262,13 +256,13 @@ const ApplicationForm = ({
           >
             Close
           </Button>
-          {/* <Button
+          <Button
             type='submit'
             loading={isAdding || isEditing}
             className='w-[100px]'
           >
-            {t('common.save')}
-          </Button> */}
+            Save
+          </Button>
         </div>
       </form>
     </Form>

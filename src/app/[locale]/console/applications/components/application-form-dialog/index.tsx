@@ -2,8 +2,6 @@
 import { forwardRef } from 'react'
 
 import { DialogProps } from '@radix-ui/react-dialog'
-import { useTranslations } from 'use-intl'
-
 import ApplicationForm from './application-form'
 import {
   Dialog,

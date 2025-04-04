@@ -10,8 +10,6 @@ import {
 import { DataTableToolbar } from './data-table-toolbar'
 import { DataTablePagination } from '@/components/custom/table/data-table-pagination'
 import { DataTableView } from '@/components/custom/table/data-table-view'
-import { useTable } from '@/hooks/use-table'
-import { useEffect } from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -25,7 +23,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   loading = false,
-  total = 0,
   openAddDialog,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable(

@@ -1,8 +1,8 @@
+"use client"
+
 import { forwardRef, ReactNode } from 'react'
 
 import { DialogProps } from '@radix-ui/react-dialog'
-import { useTranslations } from 'use-intl'
-
 import { Button } from '@/components/custom/button'
 import {
   Dialog,
@@ -36,7 +36,6 @@ const ConfirmationDialog = forwardRef<UseDialogRef, ConfirmationDialogProps>(
     ref
   ) => {
     const { open, setOpen } = useDialog(ref, { onOpenChange })
-    const t = useTranslations('common')
     const handleCancelClick = () => {
       setOpen(false)
       onCancel?.()
@@ -56,11 +55,11 @@ const ConfirmationDialog = forwardRef<UseDialogRef, ConfirmationDialogProps>(
           <DialogFooter>
             <DialogClose asChild>
               <Button variant='outline' onClick={() => handleCancelClick()}>
-                {t('cancel')}
+                Cancel
               </Button>
             </DialogClose>
             <Button loading={isConfirming} onClick={() => onConfirm?.()}>
-              {t('confirm')}
+              Confirm
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -24,7 +24,6 @@ export interface BadgeDotProps
 function BadgeDot({
   className,
   variant,
-  children,
   ...props
 }: StatusBadgeProps) {
   return (

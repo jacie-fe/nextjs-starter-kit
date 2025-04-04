@@ -110,7 +110,7 @@ export default function Detail() {
             Real support from real people. We’re available through instant live
             chat and email to help you set up and troubleshoot.
           </div>
-          <div className='flex w-full flex-row gap-2 sm:w-[260px] sm:flex-col'>
+          <div className='flex w-full gap-2 sm:w-[260px] flex-col'>
             <Button className='w-full justify-between'>
               Livechat 24/7
               <MessageCircleIcon />

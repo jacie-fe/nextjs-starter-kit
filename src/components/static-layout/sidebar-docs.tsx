@@ -108,7 +108,6 @@ export const SidebarDocsMobile = ({ items }: { items: SideGroupProps[] }) => {
           <SideGroup
             key={group.title}
             {...group}
-            closeNav={() => setOpenMobileNav(false)}
           />
         ))}
       </SheetContent>

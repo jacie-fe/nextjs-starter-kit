@@ -27,7 +27,10 @@ import { useErrorHandler } from '@/hooks/use-error-handler'
 import { randomApiKey } from '@/lib/utils'
 import { Application } from '@/types/application'
 import { CircleHelp } from 'lucide-react'
-import { useAddApplication, useUpdateApplication } from '@/hooks/use-application'
+import {
+  useAddApplication,
+  useUpdateApplication,
+} from '@/hooks/use-application'
 import { toast } from 'sonner'
 
 interface ApplicationFormProps {
@@ -83,7 +86,7 @@ const ApplicationForm = ({
         }
         await createApplication(payload)
       }
-      toast.success("Application saved successfully")
+      toast.success('Application saved successfully')
       onSuccess?.()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -248,20 +251,20 @@ const ApplicationForm = ({
           />
         </div>
 
-        <div className='mt-6 flex flex-col-reverse justify-end gap-2 sm:flex-row'>
-          <Button
-            variant='outline'
-            onClick={() => onCloseClick?.()}
-            className='w-[100px]'
-          >
-            Close
-          </Button>
+        <div className='mt-6 flex justify-end gap-2'>
           <Button
             type='submit'
             loading={isAdding || isEditing}
-            className='w-[100px]'
+            className='w-1/2 sm:w-[100px]'
           >
             Save
+          </Button>
+          <Button
+            variant='outline'
+            onClick={() => onCloseClick?.()}
+            className='w-1/2 sm:w-[100px]'
+          >
+            Close
           </Button>
         </div>
       </form>

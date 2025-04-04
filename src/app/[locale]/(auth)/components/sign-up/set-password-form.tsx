@@ -159,7 +159,7 @@ export function SetPasswordForm({
                     className={cn(
                       'flex items-center space-x-1',
                       validations[rule.code]
-                        ? 'text-success'
+                        ? 'text-green-600'
                         : 'text-muted-foreground',
                       form.formState.errors.password?.message === rule.code &&
                         'text-destructive'

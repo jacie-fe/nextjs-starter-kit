@@ -17,6 +17,11 @@ import {
 import { NavigationMenuItem as INavigationMenuItem } from '@/types/global'
 import { usePathname } from '@/i18n/navigation'
 import { useState } from 'react'
+import { Button } from '../button'
+import { routePaths } from '@/lib/routePaths'
+import { useAuth } from '@/providers/auth'
+import { UserInfoBox } from './user-nav'
+import { LogOutIcon } from 'lucide-react'
 
 interface MenuItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: INavigationMenuItem
@@ -70,7 +75,7 @@ interface SubMenuLinkProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 const SubMenuLink = ({ item, className }: SubMenuLinkProps) => {
   const pathname = usePathname()
-  const isMenuActive = (url: string) => pathname.startsWith(url)
+  const isMenuActive = (url: string) => pathname.startsWith(url) && url !== '/'
   return (
     <Link
       className={cn(
@@ -88,22 +93,79 @@ const SubMenuLink = ({ item, className }: SubMenuLinkProps) => {
 }
 
 export const MobileMenu = ({ items }: { items: INavigationMenuItem[] }) => {
-  const [activeItem, setActiveItem] = useState<string>(items[0].url)
+  const { isAuth, user, logout } = useAuth()
+  const pathname = usePathname()
+
+  const isConsoleContext = pathname.startsWith(routePaths.private.console)
+
+  const [activeItem, setActiveItem] = useState<string>()
   const handleToggle = (item: string) => {
     setActiveItem((prev) => (prev === item ? items[0].url : item))
   }
+
+  const auth = {
+    login: { title: 'Login', url: routePaths.guest.signin },
+    signup: { title: 'Sign up', url: routePaths.guest.signup },
+  }
+
+  const additionalAuthMobileMenu = [
+    isConsoleContext
+      ? {
+          title: 'Home',
+          url: routePaths.guest.home,
+        }
+      : {
+          title: 'Console',
+          url: routePaths.private.applications,
+        },
+  ]
+
+  const mobileMenuItems = isAuth
+    ? [...additionalAuthMobileMenu, ...items]
+    : items
+
+  const handleLogoutClick = () => {
+    logout()
+  }
+
+  const renderMobileAction = () => {
+    if (isAuth) {
+      return (
+        <Button onClick={handleLogoutClick} variant='outline' className='mt-4'>
+          <LogOutIcon size={16} className='mr-2' />
+          Logout
+        </Button>
+      )
+    }
+
+    return (
+      <div className='flex flex-col gap-3'>
+        <Button asChild variant='outline'>
+          <a href={auth.signup.url}>{auth.signup.title}</a>
+        </Button>
+        <Button asChild>
+          <a href={auth.login.url}>{auth.login.title}</a>
+        </Button>
+      </div>
+    )
+  }
+
   return (
-    <Accordion
-      type='single'
-      collapsible
-      className='flex w-full flex-col gap-4'
-      value={activeItem}
-      onValueChange={handleToggle}
-    >
-      {items.map((item) => (
-        <MobileMenuItem item={item} key={item.title} />
-      ))}
-    </Accordion>
+    <div className='flex flex-col gap-4 p-4'>
+      {isAuth && <UserInfoBox user={user} className='mb-3' />}
+      <Accordion
+        type='single'
+        collapsible
+        className='flex w-full flex-col gap-4'
+        value={activeItem}
+        onValueChange={handleToggle}
+      >
+        {mobileMenuItems.map((item) => (
+          <MobileMenuItem item={item} key={item.title} />
+        ))}
+      </Accordion>
+      {renderMobileAction()}
+    </div>
   )
 }
 
@@ -123,7 +185,5 @@ const MobileMenuItem = ({ item }: { item: INavigationMenuItem }) => {
     )
   }
 
-  return (
-    <SubMenuLink key={item.title} item={item} className='p-0' />
-  )
+  return <SubMenuLink key={item.title} item={item} className='p-0' />
 }

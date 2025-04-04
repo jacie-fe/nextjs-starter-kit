@@ -49,8 +49,6 @@ export function VerifyOtpForm({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [commonError, setCommonError] = useState<any>(null)
-//   const { verifySigupOtp, resendOtp } = useAuth()
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -79,9 +77,9 @@ export function VerifyOtpForm({
       // Reset timer after sending OTP
       setTimeLeft(30)
       setIsResendDisabled(true)
-      toast('We have sent the OTP code to your email')
+      toast.success('We have sent the OTP code to your email')
     } catch (_) {
-      toast('Failed to resend OTP code')
+      toast.error('Failed to resend OTP code')
     }
   }
 

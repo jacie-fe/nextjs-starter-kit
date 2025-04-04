@@ -40,7 +40,6 @@
     "dlx": "^0.2.1",
     "framer-motion": "^12.6.3",
     "jwt-decode": "^4.0.0",
-    "lru-cache": "^11.1.0",
     "lucide-react": "^0.476.0",
     "next": "15.2.0",
     "next-intl": "^3.26.5",
@@ -49,12 +48,10 @@
     "react": "19.0.0-rc.1",
     "react-dom": "19.0.0-rc.1",
     "react-hook-form": "^7.54.2",
-    "react-use": "^17.6.0",
     "shadcn": "2.4.0-canary.17",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
-    "toast": "^0.5.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {

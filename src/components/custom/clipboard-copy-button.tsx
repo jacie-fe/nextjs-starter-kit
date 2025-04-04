@@ -1,8 +1,6 @@
 "use client"
 import React, { useState } from 'react'
 
-import { useCopyToClipboard } from 'react-use'
-
 import { cn } from '@/lib/utils'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { Copy } from 'lucide-react'
@@ -18,14 +16,12 @@ const ClipboardCopyButton = React.forwardRef<
   const [copied, setCopied] = useState(false)
   const [open, setOpen] = useState(false)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, copyToClipboard] = useCopyToClipboard()
-
   const handleCopy = () => {
     if (copied) return
 
-    copyToClipboard(value)
-    setCopied(true)
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true)
+    })
     setTimeout(() => setCopied(false), 2000) // Reset after 2 seconds
   }
 

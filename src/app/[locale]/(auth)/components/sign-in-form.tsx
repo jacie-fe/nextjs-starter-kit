@@ -21,7 +21,7 @@ import Link from 'next/link'
 import { routePaths } from '@/lib/routePaths'
 import { Button } from '@/components/custom/button'
 import { signInAction } from '@/app/actions/auth'
-import { getPathname, useRouter } from '@/i18n/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/providers/auth'
 import { useSearchParams } from 'next/navigation'
 

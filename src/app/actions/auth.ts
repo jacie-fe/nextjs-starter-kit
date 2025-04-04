@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use server'
 
 import { cookies } from 'next/headers'
 
 import { CodeResponse } from '@/lib/constants'
-import { ACCESS_TOKEN_KEY, clearTokens, REFRESH_TOKEN_KEY, setToken } from '@/lib/cookies'
+import {
+  ACCESS_TOKEN_KEY,
+  clearTokens,
+  REFRESH_TOKEN_KEY,
+  setToken,
+} from '@/lib/cookies'
 import { ApiResponse } from '@/types/api'
 import authApi from '@/app/api/authApi'
 
@@ -30,9 +36,9 @@ export const signInAction = async (data: {
     if (response.code === 'USER_INACTIVE') {
       throw new Error('User is inactive')
     }
-    throw new Error('Username or password is incorrect')
+    throw response
   } catch (error) {
-    return Promise.reject("Failed to sign in")
+    return Promise.reject('Username or password is incorrect')
   }
 }
 
@@ -70,7 +76,7 @@ export const refreshTokenAction = async () => {
 
     throw response
   } catch (error) {
-    return Promise.reject("Failed to refresh token")
+    return Promise.reject('Failed to refresh token')
   }
 }
 
@@ -85,7 +91,7 @@ export async function checkEmailExists(params: {
 
     return responseData as ApiResponse<{ exists: boolean }>
   } catch (error) {
-    return Promise.reject("Failed to check email existence")
+    return Promise.reject('Failed to check email existence')
   }
 }
 
@@ -105,7 +111,7 @@ export async function register(params: {
 
     return response
   } catch (error) {
-    return Promise.reject("Failed to register")
+    return Promise.reject('Failed to register')
   }
 }
 
@@ -125,7 +131,10 @@ export async function verifySigupOtp(params: {
     }
     return response
   } catch (error) {
-    return Promise.reject("Failed to verify OTP")
+
+    console.log(error);
+    
+    return Promise.reject('Failed to verify OTP')
   }
 }
 
@@ -137,7 +146,7 @@ export async function resendOtp(params: { email: string }) {
     }
     return response
   } catch (error) {
-    return Promise.reject("Failed to resend OTP")
+    return Promise.reject('Failed to resend OTP')
   }
 }
 
@@ -150,7 +159,7 @@ export async function forgotPassword(params: { email: string }) {
 
     return responseData
   } catch (error) {
-    return Promise.reject("Failed to send reset password email")
+    return Promise.reject('Failed to send reset password email')
   }
 }
 
@@ -168,7 +177,7 @@ export async function resetPassword(params: {
 
     return responseData
   } catch (error) {
-    return Promise.reject("Failed to reset password")
+    return Promise.reject('Failed to reset password')
   }
 }
 
@@ -178,8 +187,11 @@ export async function getUserInfoAction() {
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
+    if (!response.data) {
+      throw response
+    }
     return response.data
   } catch (error) {
-    return Promise.reject("Failed to fetch user info")
+    return Promise.reject('Failed to fetch user info')
   }
 }

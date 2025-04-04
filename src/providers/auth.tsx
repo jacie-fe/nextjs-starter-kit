@@ -1,7 +1,11 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { getTokenAction, getUserInfoAction, logoutAction } from '@/app/actions/auth'
+import {
+  getTokenAction,
+  getUserInfoAction,
+  logoutAction,
+} from '@/app/actions/auth'
 import { useRouter } from 'next/navigation'
 import { UserProfile } from '@/types/global'
 
@@ -43,6 +47,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(userData)
     } catch (error) {
       console.error('Failed to refresh user info:', error)
+      setUser(null)
+      // Clear tokens if user info fetch fails, no need to redirect to signin
+      logoutAction()
     } finally {
       setIsLoadingUserInfo(false)
     }

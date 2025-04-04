@@ -9,7 +9,6 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
@@ -94,33 +93,8 @@ const Header = ({ className }: HeaderProps) => {
               </SheetTrigger>
               <SheetContent className='overflow-y-auto'>
                 <SheetHeader>
-                  <SheetTitle>
-                    <Link className='flex items-center gap-2' href='/'>
-                      <Image
-                        src={Logo}
-                        className='max-h-8'
-                        alt='eAuthenticator'
-                        width={32}
-                        height={32}
-                      />
-                      <span className='text-primary text-xl font-medium'>
-                        eAuthenticator
-                      </span>
-                    </Link>
-                  </SheetTitle>
                 </SheetHeader>
-                <div className='flex flex-col gap-6 p-4'>
                   <MobileMenu items={menu} />
-
-                  {/* <div className='flex flex-col gap-3'>
-                    <Button asChild variant='outline'>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.login.url}>{auth.login.title}</a>
-                    </Button>
-                  </div> */}
-                </div>
               </SheetContent>
             </Sheet>
           </div>

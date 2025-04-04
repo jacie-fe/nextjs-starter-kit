@@ -39,7 +39,7 @@ const authApi = () => {
         email: string
         organization_name: string
       }>
-    >('/verify-otp', params)
+    >('/register/otp/verify', params)
 
   const resendOtp = (params: { email: string }) =>
     baseApi.post<ApiResponse<{ message: string }>>('/resend-otp', params)

@@ -1,5 +1,6 @@
 export const routePaths = {
   private: {
+    console: '/console',
     applications: '/console/applications',
     applicationDetail: '/console/applications/:id',
   },

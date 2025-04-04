@@ -15,7 +15,7 @@ export async function fetchApplications() {
 
     return response.data?.applications
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to fetch applications")
   }
 }
 

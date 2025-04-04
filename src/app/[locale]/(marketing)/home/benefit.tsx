@@ -27,7 +27,7 @@ export default function Benefit() {
 
         <div className='flex gap-0 sm:gap-[76px]'>
           <div className='w-1/2 text-center sm:h-[412px] sm:w-[412px]'>
-            <SlideDownOnScroll delay={1} duration={1}>
+            <SlideDownOnScroll delay={0.5} duration={1}>
               <Image src={ImageDevice} alt={'eAuthenticator'} />
             </SlideDownOnScroll>
             <SlideUpOnScroll delay={0.5} duration={1}>
@@ -35,7 +35,7 @@ export default function Benefit() {
             </SlideUpOnScroll>
           </div>
           <div className='w-1/2 text-center sm:h-[412px] sm:w-[412px]'>
-            <SlideDownOnScroll delay={1} duration={1}>
+            <SlideDownOnScroll delay={0.5} duration={1}>
               <Image src={ImageHand} alt={'eAuthenticator'} />
             </SlideDownOnScroll>
             <SlideUpOnScroll delay={0.5} duration={1}>

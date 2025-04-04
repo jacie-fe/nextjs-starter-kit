@@ -60,7 +60,7 @@ export default function Banner() {
         </div>
 
         <div className='flex'>
-          <div className='w-[100px] min-w-[100px] md:w-[434px]'>
+          <div className='w-[100px] min-w-[100px] md:w-[434px] xl:mr-27'>
             <SlideRightOnScroll>
               <Image
                 src={AuthenImage3}

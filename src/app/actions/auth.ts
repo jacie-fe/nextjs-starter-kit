@@ -32,7 +32,7 @@ export const signInAction = async (data: {
     }
     throw new Error('Username or password is incorrect')
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to sign in")
   }
 }
 
@@ -70,7 +70,7 @@ export const refreshTokenAction = async () => {
 
     throw response
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to refresh token")
   }
 }
 
@@ -85,7 +85,7 @@ export async function checkEmailExists(params: {
 
     return responseData as ApiResponse<{ exists: boolean }>
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to check email existence")
   }
 }
 
@@ -105,7 +105,7 @@ export async function register(params: {
 
     return response
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to register")
   }
 }
 
@@ -125,7 +125,7 @@ export async function verifySigupOtp(params: {
     }
     return response
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to verify OTP")
   }
 }
 
@@ -137,7 +137,7 @@ export async function resendOtp(params: { email: string }) {
     }
     return response
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to resend OTP")
   }
 }
 
@@ -150,7 +150,7 @@ export async function forgotPassword(params: { email: string }) {
 
     return responseData
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to send reset password email")
   }
 }
 
@@ -168,7 +168,7 @@ export async function resetPassword(params: {
 
     return responseData
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to reset password")
   }
 }
 
@@ -180,6 +180,6 @@ export async function getUserInfoAction() {
     }
     return response.data
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject("Failed to fetch user info")
   }
 }

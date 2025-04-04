@@ -20,7 +20,7 @@ export default function SectionCode({
 
   useEffect(() => {
     const updateWidth = () => {
-      setWidth(window.innerWidth > 768 ? 760 : window.innerWidth - 70);
+      setWidth(window.outerWidth > 768 ? 760 : window.outerWidth - 100);
     };
 
     updateWidth(); // Set initial width

@@ -15,9 +15,6 @@ export default function Docs() {
         <Introduction />
         <Separator className='my-12' />
         <CommonSetup />
-        {/* <Preview /> */}
-        {/* <Separator className='my-12' /> */}
-        {/* <Summary /> */}
         <Separator className='my-12' />
         <div id='api-reference' className='document-heading'>
           API reference

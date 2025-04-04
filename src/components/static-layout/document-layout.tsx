@@ -19,7 +19,7 @@ export default function DocumentLayout({
     <>
       {/* Menu trigger for mobile */}
       <ScrollHandler />
-      <div className='fixed top-[var(--header-height)] z-[20] w-full md:hidden'>
+      <div className='fixed top-[65px] z-[20] w-full md:hidden'>
         <SidebarDocsMobile items={sidebarItems} />
       </div>
       <div className={cn('mx-auto text-[#454545] sm:container', className)}>

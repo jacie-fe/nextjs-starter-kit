@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/custom/header/header'
 import { AuthProvider } from '@/providers/auth'
+import ReactQueryProvider from '@/providers/react-query'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -38,11 +39,18 @@ export default async function RootLayout({
     <html lang={locale}>
       <body suppressHydrationWarning>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <AuthProvider>
-            <Header />
-            <Toaster richColors />
-            <div className='mt-[80px]'>{children}</div>
-          </AuthProvider>
+          <ReactQueryProvider>
+            <AuthProvider>
+              <Header />
+              <Toaster richColors />
+              <main
+                id='content'
+                className='mt-[80px] h-full min-h-[calc(100vh-(var(--header-height)+var(--footer-height)))] transition-[margin] sm:overflow-x-hidden'
+              >
+                {children}
+              </main>
+            </AuthProvider>
+          </ReactQueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>

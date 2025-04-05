@@ -24,17 +24,42 @@ export interface SideLink extends NavLink {
   sub?: NavLink[]
   level?: number
 }
+export interface SidebarDocsProps extends React.HTMLAttributes<HTMLDivElement> {
+  items?: SideLink & { id: string }[]
+}
+export const SidebarDocs = ({ items }: SidebarDocsProps) => {
+  const [activeItem, setActiveItem] = useState('')
+
+  const handleActiveItem = (id: string) => {
+    setActiveItem(id)
+  }
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    items?.map((group: any) => (
+      <SideGroup
+        key={group.title}
+        {...group}
+        activeItem={activeItem}
+        onUpdateActiveItem={handleActiveItem}
+      />
+    ))
+  )
+}
 
 export interface SideGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
   items?: SideLink & { id: string }[]
   id: string
+  activeItem?: string
+  onUpdateActiveItem?: (id: string) => void
 }
 export const SideGroup = ({
   title,
   id,
   items,
   className,
+  activeItem,
+  onUpdateActiveItem,
   ...props
 }: SideGroupProps) => {
   const navItems = useMemo(() => {
@@ -47,6 +72,7 @@ export const SideGroup = ({
   }, [items])
 
   const handleLinktoId = (targetId: string) => {
+    onUpdateActiveItem?.(targetId)
     window.location.hash = targetId
   }
 
@@ -54,7 +80,9 @@ export const SideGroup = ({
     <div className={cn('mt-4', className)} {...props}>
       <div
         onClick={() => handleLinktoId(id)}
-        className='font-[600] text-[#A6A6A6] uppercase cursor-pointer hover:text-primary mb-2'
+        className={cn(
+          'hover:text-primary mb-2 cursor-pointer font-[600] text-[#A6A6A6] uppercase'
+        )}
       >
         {title}
       </div>
@@ -65,9 +93,14 @@ export const SideGroup = ({
             <div
               onClick={() => handleLinktoId(item.id)}
               key={item.id}
-              className='focus-visible:ring-ring hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-full cursor-pointer items-center justify-start rounded-none px-3 py-2 text-sm font-medium text-wrap whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50'
+              className={cn(
+                'focus-visible:ring-ring hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-full cursor-pointer items-center justify-start rounded-none px-3 py-2 text-sm font-medium text-wrap whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50',
+                activeItem === item.id ? 'text-primary' : ''
+              )}
             >
-              <div>{item.title}</div>
+              <div>
+                {item.title}
+              </div>
             </div>
           )
         })}
@@ -105,10 +138,7 @@ export const SidebarDocsMobile = ({ items }: { items: SideGroupProps[] }) => {
         </div>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {items.map((group: any) => (
-          <SideGroup
-            key={group.title}
-            {...group}
-          />
+          <SideGroup key={group.title} {...group} />
         ))}
       </SheetContent>
     </Sheet>

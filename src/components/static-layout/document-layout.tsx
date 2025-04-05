@@ -1,5 +1,6 @@
 import {
   SideGroup,
+  SidebarDocs,
   SidebarDocsMobile,
 } from '@/components/static-layout/sidebar-docs'
 import { cn } from '@/lib/utils'
@@ -25,10 +26,7 @@ export default function DocumentLayout({
       <div className={cn('mx-auto text-[#454545] sm:container', className)}>
         <div className='relative flex sm:overflow-hidden'>
           <aside className='bg-background fixed hidden max-h-screen w-[256px] min-w-[256px] flex-shrink-0 border-r p-6 md:block md:w-[320px]'>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {sidebarItems.map((group: any) => (
-              <SideGroup key={group.title} {...group} />
-            ))}
+            <SidebarDocs items={sidebarItems} />
           </aside>
           <main className='xs:ml-[256px] max-w-[896px] p-6 md:ml-[320px] md:p-12'>
             {children}

@@ -18,6 +18,7 @@ import { UserNav } from './user-nav'
 import { Button } from '../button'
 import { Link } from '@/i18n/navigation'
 import { MenuItem, MobileMenu } from './menu-item'
+import Subheader from './sub-header'
 interface MenuItem {
   title: string
   url: string
@@ -49,6 +50,7 @@ const Header = ({ className }: HeaderProps) => {
             />
             <span className='text-primary text-xl font-medium'>
               eAuthenticator
+              <Subheader />
             </span>
           </Link>
           <div className='flex items-center'>
@@ -83,6 +85,7 @@ const Header = ({ className }: HeaderProps) => {
               />
               <span className='text-primary text-xl font-medium'>
                 eAuthenticator
+                <Subheader />
               </span>
             </Link>
             <Sheet>

@@ -52,13 +52,13 @@ const ConfirmationDialog = forwardRef<UseDialogRef, ConfirmationDialogProps>(
             <p className='text-muted-foreground'>{description}</p>
           )}
 
-          <DialogFooter>
+          <DialogFooter className='flex-row-reverse'>
             <DialogClose asChild>
-              <Button variant='outline' onClick={() => handleCancelClick()}>
+              <Button className='w-1/2 sm:w-auto' variant='outline' onClick={() => handleCancelClick()}>
                 Cancel
               </Button>
             </DialogClose>
-            <Button loading={isConfirming} onClick={() => onConfirm?.()}>
+            <Button className='w-1/2 sm:w-auto' loading={isConfirming} onClick={() => onConfirm?.()}>
               Confirm
             </Button>
           </DialogFooter>

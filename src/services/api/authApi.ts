@@ -1,15 +1,15 @@
 import { ApiResponse } from '@/types/api'
-import serverApi from './serverApi'
 import { UserProfile } from '@/types/global'
+import createApiClient from './apiClient'
 
 interface SigninUserParams {
   email: string
   password: string
 }
 
-const authApi = () => {
-  const baseUrl = process.env.VITE_API_URL || 'http://localhost:30000'
-  const baseApi = serverApi(baseUrl)
+export const createAuthApi = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:30000'
+  const baseApi = createApiClient(baseUrl)
 
   const login = (params: SigninUserParams) =>
     baseApi.post<
@@ -72,5 +72,3 @@ const authApi = () => {
     getUserInfo,
   }
 }
-
-export default authApi()

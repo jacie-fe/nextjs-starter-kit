@@ -1,12 +1,6 @@
 // #region signup
-export enum SignupSteps {
-  GetStarted = 'get-started',
-  SetupAccount = 'setup-account',
-  SetPassword = 'set-password',
-  VerifyEmail = 'verify-email',
-  VerifySuccess = 'verify-success',
-}
-export type SignupData = {
+
+export interface SignupData {
   username?: string
   email?: string
   password?: string
@@ -25,13 +19,9 @@ export interface SignupRequestParams {
 // #endregion
 
 // #region forgot-password
-export enum ForgotPasswordSteps {
-  GetStarted = 'get-started',
-  VerifyOtp = 'verify-otp',
-  VerifySuccess = 'verify-success',
-}
 
-export type ForgotPasswordData = {
+
+export interface ForgotPasswordData {
   email?: string
   password?: string
   password_confirmation?: string

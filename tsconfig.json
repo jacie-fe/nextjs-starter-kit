@@ -37,5 +37,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "**/*.mts",
+    "env.d.ts"
   ]
 }

@@ -1,6 +1,6 @@
 import { ApiResponse } from '@/types/api'
-import serverApi from './serverApi'
 import { Application } from '@/types/application'
+import createApiClient from './apiClient'
 
 export type CreateApplicationParams = {
   application_name: string
@@ -16,9 +16,9 @@ export type UpdateApplicationParams = Partial<CreateApplicationParams> & {
   api_key: string
 }
 
-const applicationApi = () => {
-  const baseUrl = process.env.VITE_API_URL || 'http://localhost:30000'
-  const baseApi = serverApi(baseUrl)
+export const createApplicationApi = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:30000'
+  const baseApi = createApiClient(baseUrl)
 
   const getApplications = () =>
     baseApi.get<ApiResponse<{ applications: Application[] }>>('/applications')
@@ -47,5 +47,3 @@ const applicationApi = () => {
     deleteApplication,
   }
 }
-
-export default applicationApi()

@@ -1,25 +1,44 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use server'
 
+import { authApi } from '@/services/api'
 import { cookies } from 'next/headers'
 
-import { CodeResponse } from '@/lib/constants'
 import {
   ACCESS_TOKEN_KEY,
-  clearTokens,
   REFRESH_TOKEN_KEY,
+  removeToken,
   setToken,
 } from '@/lib/cookies'
+import { CodeResponse, ErrorMessages } from '@/lib/constants'
 import { ApiResponse } from '@/types/api'
-import authApi from '@/app/api/authApi'
+import { ApiError } from '@/lib/errors'
 
 export const getTokenAction = async () => {
   const cookieStore = await cookies()
-
   return {
     access_token: cookieStore.get(ACCESS_TOKEN_KEY)?.value || '',
     refresh_token: cookieStore.get(REFRESH_TOKEN_KEY)?.value || '',
   }
+}
+
+export const setAccessToken = async (token: string) => {
+  return setToken(ACCESS_TOKEN_KEY, token)
+}
+
+export const removeAccessToken = async () => {
+  return removeToken('access_token')
+}
+
+export const removeRefreshToken = async () => {
+  return removeToken('refresh_token')
+}
+
+function processApiError(error: unknown) {
+  if (error instanceof ApiError) {
+    return Promise.reject(error.message)
+  }
+  return Promise.reject('An unexpected error occurred')
 }
 
 export const signInAction = async (data: {
@@ -27,23 +46,28 @@ export const signInAction = async (data: {
   password: string
 }) => {
   try {
-    const response = await authApi.login(data)
+    const { data: response } = await authApi.login(data)
+
     if (response.code === CodeResponse.SUCCESS) {
       await setToken(ACCESS_TOKEN_KEY, response.data.token.access_token)
       await setToken(REFRESH_TOKEN_KEY, response.data.token.refresh_token)
       return response
     }
-    if (response.code === 'USER_INACTIVE') {
-      throw new Error('User is inactive')
+    if (ErrorMessages[response.code]) {
+      throw new ApiError(ErrorMessages[response.code])
     }
     throw response
   } catch (error) {
+    if (error instanceof ApiError) {
+      return Promise.reject(error.message)
+    }
     return Promise.reject('Username or password is incorrect')
   }
 }
 
 export const logoutAction = async () => {
-  await clearTokens()
+  await removeAccessToken()
+  await removeRefreshToken()
 }
 
 export const refreshTokenAction = async () => {
@@ -57,7 +81,8 @@ export const refreshTokenAction = async () => {
       throw new Error('Refresh token not found')
     }
 
-    const uri = `${process.env.VITE_API_URL}/refresh-token`
+    const uri = `${process.env.NEXT_PUBLIC_API_URL}/refresh-token`
+
     const response = await fetch(uri, {
       method: 'POST',
       body: JSON.stringify({ refresh_token }),
@@ -84,12 +109,12 @@ export async function checkEmailExists(params: {
   email: string
 }): Promise<ApiResponse<{ exists: boolean }>> {
   try {
-    const responseData = await authApi.checkEmailExists(params)
-    if (responseData.code !== CodeResponse.SUCCESS) {
-      throw responseData
+    const { data: response } = await authApi.checkEmailExists(params)
+    if (response.code !== CodeResponse.SUCCESS) {
+      throw response
     }
 
-    return responseData as ApiResponse<{ exists: boolean }>
+    return response as ApiResponse<{ exists: boolean }>
   } catch (error) {
     return Promise.reject('Failed to check email existence')
   }
@@ -101,15 +126,11 @@ export async function register(params: {
   organization_name: string
 }) {
   try {
-    const response = await authApi.register(params)
-    if (response.code !== CodeResponse.SUCCESS) {
-      if (response.code === CodeResponse.INTERNAL_SERVER_ERROR) {
-        throw new Error('Username or password is incorrect')
-      }
-      throw response
+    const { data: response } = await authApi.register(params)
+    if (response.code === CodeResponse.SUCCESS) {
+      return response
     }
-
-    return response
+    throw response
   } catch (error) {
     return Promise.reject('Failed to register')
   }
@@ -125,22 +146,19 @@ export async function verifySigupOtp(params: {
   }>
 > {
   try {
-    const response = await authApi.verifySigupOtp(params)
+    const { data: response } = await authApi.verifySigupOtp(params)
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
     return response
   } catch (error) {
-
-    console.log(error);
-    
     return Promise.reject('Failed to verify OTP')
   }
 }
 
 export async function resendOtp(params: { email: string }) {
   try {
-    const response = await authApi.resendOtp(params)
+    const { data: response } = await authApi.resendOtp(params)
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
@@ -152,14 +170,14 @@ export async function resendOtp(params: { email: string }) {
 
 export async function forgotPassword(params: { email: string }) {
   try {
-    const responseData = await authApi.forgotPassword(params)
-    if (responseData.code !== CodeResponse.SUCCESS) {
-      throw new Error('Email not found')
+    const { data: response } = await authApi.forgotPassword(params)
+    if (response.code !== CodeResponse.SUCCESS) {
+      throw new ApiError('Email not found')
     }
 
-    return responseData
+    return response
   } catch (error) {
-    return Promise.reject('Failed to send reset password email')
+    return processApiError(error)
   }
 }
 
@@ -170,12 +188,12 @@ export async function resetPassword(params: {
   otp: string
 }) {
   try {
-    const responseData = await authApi.resetPassword(params)
-    if (responseData.code !== CodeResponse.SUCCESS) {
-      throw responseData
+    const { data: response } = await authApi.resetPassword(params)
+    if (response.code !== CodeResponse.SUCCESS) {
+      throw response
     }
 
-    return responseData
+    return response
   } catch (error) {
     return Promise.reject('Failed to reset password')
   }
@@ -183,7 +201,7 @@ export async function resetPassword(params: {
 
 export async function getUserInfoAction() {
   try {
-    const response = await authApi.getUserInfo()
+    const { data: response } = await authApi.getUserInfo()
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }

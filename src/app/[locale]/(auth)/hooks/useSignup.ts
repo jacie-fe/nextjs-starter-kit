@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-import { SignupSteps, SignupData } from '@/types/auth'
+import { SignupData } from '@/types/auth'
+import { SignupSteps } from '@/lib/constants'
 
 type UseSignupHook = {
   currentStep: SignupSteps

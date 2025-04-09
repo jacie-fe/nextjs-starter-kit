@@ -5,6 +5,28 @@ export enum CodeResponse {
   SUCCESS = 'SUCCESS',
   INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
   SESSION_EXPIRED = 'SESSION_EXPIRED',
+  USER_INACTIVE = 'USER_INACTIVE',
+}
+
+
+export const ErrorMessages: Record<string, string> = {
+  [CodeResponse.INTERNAL_SERVER_ERROR]: 'An unexpected error occurred',
+  [CodeResponse.USER_INACTIVE]: 'User is inactive',
+
+}
+
+export enum SignupSteps {
+  GetStarted = 'get-started',
+  SetupAccount = 'setup-account',
+  SetPassword = 'set-password',
+  VerifyEmail = 'verify-email',
+  VerifySuccess = 'verify-success',
+}
+
+export enum ForgotPasswordSteps {
+  GetStarted = 'get-started',
+  VerifyOtp = 'verify-otp',
+  VerifySuccess = 'verify-success',
 }
 
 export const menu: NavigationMenuItem[] = [

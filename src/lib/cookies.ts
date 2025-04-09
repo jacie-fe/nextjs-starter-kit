@@ -28,11 +28,3 @@ export async function removeToken(key: 'access_token' | 'refresh_token') {
     const cookiesStore = await cookies();
     cookiesStore.delete(key)
 }
-
-/**
- * Clear all auth tokens
- */
-export async function clearTokens() {
-  await removeToken(ACCESS_TOKEN_KEY)
-  await removeToken(REFRESH_TOKEN_KEY)
-}

@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-'use server'
 
 import { CodeResponse } from '@/lib/constants'
-import applicationApi, {
+import {
+  applicationApi,
   CreateApplicationParams,
   UpdateApplicationParams,
-} from '@/app/api/applicationApi'
+} from './api'
 
 export async function fetchApplications() {
   try {
-    const response = await applicationApi.getApplications()
+    const { data: response } = await applicationApi.getApplications()
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
 
     return response.data?.applications
   } catch (error) {
-    return Promise.reject("Failed to fetch applications")
+    return Promise.reject('Failed to fetch applications')
   }
 }
 
 export async function addApplication(params: CreateApplicationParams) {
   try {
-    const response = await applicationApi.createApplication(params)
+    const { data: response } = await applicationApi.createApplication(params)
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
@@ -34,7 +34,7 @@ export async function addApplication(params: CreateApplicationParams) {
 
 export async function updateApplication(params: UpdateApplicationParams) {
   try {
-    const response = await applicationApi.updateApplication(params)
+    const { data: response } = await applicationApi.updateApplication(params)
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
@@ -46,7 +46,7 @@ export async function updateApplication(params: UpdateApplicationParams) {
 
 export async function deleteApplication(client_id: string) {
   try {
-    const response = await applicationApi.deleteApplication(client_id)
+    const { data: response } = await applicationApi.deleteApplication(client_id)
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }

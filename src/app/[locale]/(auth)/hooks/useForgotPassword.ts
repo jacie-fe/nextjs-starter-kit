@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 
-import { ForgotPasswordSteps, ForgotPasswordData } from '@/types/auth'
+import { ForgotPasswordData } from '@/types/auth'
+import { ForgotPasswordSteps } from '@/lib/constants'
 
 type UseForgotPasswordHook = {
   currentStep: ForgotPasswordSteps

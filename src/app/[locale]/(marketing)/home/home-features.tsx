@@ -1,3 +1,4 @@
+import { Button } from '@/components/custom/button'
 import IconBiometric from './images/biometric.svg'
 import IconDirectionIntegrate from './images/direction-integrate.svg'
 import IconMfa from './images/mfa.svg'
@@ -5,6 +6,7 @@ import IconPasswordManagement from './images/password-management.svg'
 import IconPushNotifications from './images/push-notification.svg'
 import IconTOTP from './images/totp.svg'
 import Image from 'next/image'
+import MyButton from './clientButton'
 
 const FeatureIcon = ({
   title,
@@ -25,6 +27,9 @@ export default function HomeFeatures() {
   return (
     <div className='relative z-5 mx-auto max-w-[1730px] bg-white p-[60px]'>
       <div className='text-center'>
+        <div>
+          <MyButton/>
+        </div>
         <div className='text-primary text-[30px] font-[700] sm:text-[40px]'>
           Powerful Features to Keep You Secure
         </div>

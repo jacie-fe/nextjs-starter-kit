@@ -4,10 +4,11 @@ import { ProvideEmailForm } from './forgot-password/provide-email'
 import { ResetPasswordForm } from './forgot-password/reset-password-form'
 import SuccessScreen from './success-screen'
 import useForgotPassword from '../hooks/useForgotPassword'
-import { ForgotPasswordData, ForgotPasswordSteps } from '@/types/auth'
+import { ForgotPasswordData } from '@/types/auth'
 import { Button } from '@/components/custom/button'
 import Link from 'next/link'
 import { routePaths } from '@/lib/routePaths'
+import { ForgotPasswordSteps } from '@/lib/constants'
 
 export default function ForgotPasswordForm() {
   const {

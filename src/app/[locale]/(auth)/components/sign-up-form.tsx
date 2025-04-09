@@ -8,9 +8,10 @@ import SignupProgressBar from '../components/sign-up/sign-up-progress-bar'
 import { VerifyOtpForm } from '../components/sign-up/verify-otp-form'
 import SuccessScreen from '../components/success-screen'
 import { useSignup } from '../hooks/useSignup'
-import { SignupData, SignupSteps } from '@/types/auth'
+import { SignupData } from '@/types/auth'
 import Link from 'next/link'
 import { routePaths } from '@/lib/routePaths'
+import { SignupSteps } from '@/lib/constants'
 
 export default function SignUpForm() {
   const { currentStep, data: signupData, goToNextStep, setData } = useSignup()

@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 import { CheckIcon } from 'lucide-react'
-import { SignupSteps } from '@/types/auth'
+import { SignupSteps } from '@/lib/constants'
 
 const StepNumber = ({
   title,

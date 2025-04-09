@@ -48,7 +48,6 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
     },
   })
   const [isLoading, setLoading] = useState(false)
-  const [commonError, setCommonError] = useState<string | null>(null)
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
@@ -57,7 +56,7 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
       onNext(data)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setCommonError(error?.message || 'Something went wrong')
+      form.setError("root", { message: error?.message || 'Something went wrong' })
     } finally {
       setLoading(false)
     }
@@ -92,6 +91,7 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
                         {...field}
                         onChange={(e) => {
                           field.onChange(e)
+                          form.clearErrors('root')
                         }}
                       />
                     </FormControl>
@@ -100,9 +100,9 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
                 )}
               />
             </div>
-            {commonError && (
+            {form.formState?.errors?.root && (
               <p className='text-destructive mt-2 text-[0.8rem] font-medium'>
-                {commonError}
+                {form.formState?.errors?.root?.message}
               </p>
             )}
             <div className='mt-2 w-full'>

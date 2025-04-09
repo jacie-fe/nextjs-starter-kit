@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/popover'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useErrorHandler } from '@/hooks/use-error-handler'
 import { randomApiKey } from '@/lib/utils'
 import { Application } from '@/types/application'
 import { CircleHelp } from 'lucide-react'
@@ -65,7 +64,6 @@ const ApplicationForm = ({
         : '1',
     },
   })
-  const { handleFormError } = useErrorHandler()
 
   const onSubmit = async (_data: z.infer<ReturnType<typeof getFormSchema>>) => {
     try {
@@ -89,10 +87,8 @@ const ApplicationForm = ({
       toast.success('Application saved successfully')
       onSuccess?.()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.log('errskjfhsdjf', err);
-      
-      handleFormError(err)
+    } catch (error: any) {
+      toast.error(error?.message)
     }
   }
 

@@ -23,11 +23,11 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useErrorHandler } from '@/hooks/use-error-handler'
 import { cn } from '@/lib/utils'
 import { SignupData } from '@/types/auth'
 import Image from 'next/image'
 import { checkEmailExists } from '@/app/actions/auth'
+import { toast } from 'sonner'
 
 interface SetupEmailFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<SignupData>
@@ -42,7 +42,6 @@ const formSchema = z.object({
 })
 
 export function SetupEmailForm({ data, onNext }: SetupEmailFormProps) {
-  const { showErrorToast } = useErrorHandler()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,7 +60,7 @@ export function SetupEmailForm({ data, onNext }: SetupEmailFormProps) {
       }
       form.setError('email', { message: 'Email already exists' })
     } catch (err) {
-      showErrorToast({ error: err })
+      toast.error('Something went wrong')
     } finally {
       setLoading(false)
     }

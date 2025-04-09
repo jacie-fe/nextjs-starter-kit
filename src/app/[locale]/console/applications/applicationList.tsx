@@ -15,7 +15,6 @@ import {
   useQueryApplications,
 } from '@/hooks/use-application'
 import { UseDialogRef } from '@/hooks/use-dialog'
-import { useErrorHandler } from '@/hooks/use-error-handler'
 import { Application } from '@/types/application'
 import { toast } from 'sonner'
 
@@ -29,7 +28,6 @@ const ApplicationList = () => {
     useState<Application | null>(null)
   const queryClient = useQueryClient()
 
-  const { showErrorToast } = useErrorHandler()
   const { mutate: deleteApplication, isPending: isDeletingApp } =
     useDeleteApplication({
       onSuccess(_, id) {
@@ -44,8 +42,9 @@ const ApplicationList = () => {
         setCurrentApplication(null)
         confirmationDialogRef.current?.closeDialog()
       },
-      onError(err) {
-        showErrorToast({ error: err })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError(err: any) {
+        toast.error(err.message || 'Failed to delete application')
       },
     })
   const handleOpenAddDialog = () => {

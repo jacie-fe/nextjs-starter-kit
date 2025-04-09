@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use server'
 
-import { authApi } from '@/services/api'
+import { authApi } from '@/app/api'
 import { cookies } from 'next/headers'
 
 import {
@@ -171,13 +171,14 @@ export async function resendOtp(params: { email: string }) {
 export async function forgotPassword(params: { email: string }) {
   try {
     const { data: response } = await authApi.forgotPassword(params)
+    
     if (response.code !== CodeResponse.SUCCESS) {
-      throw new ApiError('Email not found')
+      throw response
     }
 
     return response
   } catch (error) {
-    return processApiError(error)
+    return Promise.reject('Email not found')
   }
 }
 
@@ -196,20 +197,5 @@ export async function resetPassword(params: {
     return response
   } catch (error) {
     return Promise.reject('Failed to reset password')
-  }
-}
-
-export async function getUserInfoAction() {
-  try {
-    const { data: response } = await authApi.getUserInfo()
-    if (response.code !== CodeResponse.SUCCESS) {
-      throw response
-    }
-    if (!response.data) {
-      throw response
-    }
-    return response.data
-  } catch (error) {
-    return Promise.reject('Failed to fetch user info')
   }
 }

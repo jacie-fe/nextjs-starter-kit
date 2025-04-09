@@ -5,7 +5,7 @@ import {
   applicationApi,
   CreateApplicationParams,
   UpdateApplicationParams,
-} from './api'
+} from '../app/api'
 
 export async function fetchApplications() {
   try {

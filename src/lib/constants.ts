@@ -12,7 +12,6 @@ export enum CodeResponse {
 export const ErrorMessages: Record<string, string> = {
   [CodeResponse.INTERNAL_SERVER_ERROR]: 'An unexpected error occurred',
   [CodeResponse.USER_INACTIVE]: 'User is inactive',
-
 }
 
 export enum SignupSteps {

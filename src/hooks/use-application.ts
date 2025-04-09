@@ -9,7 +9,7 @@ import {
 
 import { Application } from '@/types/application'
 import { addApplication, deleteApplication, fetchApplications, updateApplication } from '@/services/application.service'
-import { CreateApplicationParams, UpdateApplicationParams } from '@/services/api/applicationApi'
+import { CreateApplicationParams, UpdateApplicationParams } from '@/app/api/applicationApi'
 
 export const applicationKeys = {
   all: ['application-keys'] as const,

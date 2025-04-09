@@ -3,11 +3,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import {
   getTokenAction,
-  getUserInfoAction,
   logoutAction,
 } from '@/app/actions/auth'
 import { useRouter } from 'next/navigation'
 import { UserProfile } from '@/types/global'
+import { getUserInfoService } from '@/services/auth.service'
 
 type AuthContextType = {
   isAuth: boolean
@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setIsLoadingUserInfo(true)
     try {
-      const userData = await getUserInfoAction()
+      const userData = await getUserInfoService()
       setUser(userData)
     } catch (error) {
       console.error('Failed to refresh user info:', error)

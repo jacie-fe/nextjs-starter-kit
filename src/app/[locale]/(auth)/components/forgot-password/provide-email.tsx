@@ -48,6 +48,7 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
     },
   })
   const [isLoading, setLoading] = useState(false)
+  const [commonError, setCommonError] = useState<string | null>(null)
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
@@ -56,7 +57,7 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
       onNext(data)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      form.setError("root", { message: error?.message || 'Something went wrong' })
+      setCommonError('User not found')
     } finally {
       setLoading(false)
     }
@@ -91,7 +92,7 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
                         {...field}
                         onChange={(e) => {
                           field.onChange(e)
-                          form.clearErrors('root')
+                          setCommonError(null)
                         }}
                       />
                     </FormControl>
@@ -100,9 +101,9 @@ export function ProvideEmailForm({ data, onNext }: ProvideEmailFormProps) {
                 )}
               />
             </div>
-            {form.formState?.errors?.root && (
+            {commonError && (
               <p className='text-destructive mt-2 text-[0.8rem] font-medium'>
-                {form.formState?.errors?.root?.message}
+                {commonError}
               </p>
             )}
             <div className='mt-2 w-full'>

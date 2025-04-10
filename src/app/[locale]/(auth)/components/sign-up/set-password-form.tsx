@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils'
 import { passwordRuleCode } from '@/lib/constants'
 import { SignupData, SignupRequestParams } from '@/types/auth'
 import { register } from '@/app/actions/auth'
+import { useErrorHandler } from '@/hooks/use-error-handler'
 
 interface SetPasswordFormProps extends HTMLAttributes<HTMLDivElement> {
   data: Partial<SignupData>
@@ -63,6 +64,7 @@ export function SetPasswordForm({
   ...props
 }: SetPasswordFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const { handleRootFormError } = useErrorHandler()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -95,14 +97,12 @@ export function SetPasswordForm({
       form.reset()
       onNext?.(dataForm)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      if (err.code === 'USER_ALREADY_EXISTS') {
-        form.setError('root', { message: 'User already exists' })
-      } else {
-        form.setError('root', {
-          message: err?.response?.data?.message || err?.message,
-        })
-      }
+    } catch (error: any) {
+      handleRootFormError({
+        error,
+        fallbackErrorMessage: 'Unable to create your account',
+        setErrorFn: form.setError,
+      })
     } finally {
       setIsLoading(false)
     }

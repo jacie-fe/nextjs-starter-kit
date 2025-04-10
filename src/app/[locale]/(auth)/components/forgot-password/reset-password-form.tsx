@@ -89,7 +89,7 @@ export function ResetPasswordForm({
       onNext?.(dataForm)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setCommonError(err?.message || 'Something went wrong')
+      setCommonError('Something went wrong')
     } finally {
       setIsLoading(false)
     }

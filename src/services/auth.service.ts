@@ -12,6 +12,6 @@ export async function getUserInfoService() {
     }
     return response.data
   } catch (error) {
-    return Promise.reject('Failed to fetch user info')
+    return Promise.reject(error)
   }
 }

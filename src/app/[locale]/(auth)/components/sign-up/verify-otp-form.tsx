@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { HTMLAttributes, useEffect, useState } from 'react'
 
@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { resendOtp, verifySigupOtp } from '@/app/actions/auth'
+import { useErrorHandler } from '@/hooks/use-error-handler'
 
 interface VerifyOtpFormProps extends HTMLAttributes<HTMLDivElement> {
   email: string
@@ -43,12 +44,12 @@ export function VerifyOtpForm({
   className,
   ...props
 }: VerifyOtpFormProps) {
+  const { handleRootFormError } = useErrorHandler()
+
   const [isLoading, setIsLoading] = useState(false)
   const [timeLeft, setTimeLeft] = useState<number>(30) // 30 seconds countdown
   const [isResendDisabled, setIsResendDisabled] = useState<boolean>(false)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [commonError, setCommonError] = useState<any>(null)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,8 +65,12 @@ export function VerifyOtpForm({
       onNext?.()
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setCommonError(err?.message)
+    } catch (error: any) {
+      handleRootFormError({
+        error,
+        setErrorFn: form.setError,
+        fallbackErrorMessage: 'Invalid OTP',
+      })
     } finally {
       setIsLoading(false)
     }
@@ -130,7 +135,6 @@ export function VerifyOtpForm({
                           {...field}
                           onChange={(e) => {
                             field.onChange(e)
-                            setCommonError(null)
                           }}
                         />
                       </FormControl>
@@ -139,9 +143,9 @@ export function VerifyOtpForm({
                   )}
                 />
 
-                {commonError && (
-                  <p className='text-destructive mt-2 text-[0.8rem] font-medium'>
-                    Invalid OTP
+                {form.formState.errors.root && (
+                  <p className='ea-error-message'>
+                    {form.formState.errors.root.message}
                   </p>
                 )}
 

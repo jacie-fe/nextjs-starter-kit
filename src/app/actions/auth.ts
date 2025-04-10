@@ -12,7 +12,6 @@ import {
 } from '@/lib/cookies'
 import { CodeResponse, ErrorMessages } from '@/lib/constants'
 import { ApiResponse } from '@/types/api'
-import { ApiError } from '@/lib/errors'
 
 export const getTokenAction = async () => {
   const cookieStore = await cookies()
@@ -40,21 +39,17 @@ export const signInAction = async (data: {
 }) => {
   try {
     const { data: response } = await authApi.login(data)
-
     if (response.code === CodeResponse.SUCCESS) {
       await setToken(ACCESS_TOKEN_KEY, response.data.token.access_token)
       await setToken(REFRESH_TOKEN_KEY, response.data.token.refresh_token)
       return response
     }
     if (ErrorMessages[response.code]) {
-      throw new ApiError(ErrorMessages[response.code])
+      return { error: { message: ErrorMessages[response.code] } }
     }
     throw response
   } catch (error) {
-    if (error instanceof ApiError) {
-      return Promise.reject(error.message)
-    }
-    return Promise.reject('Username or password is incorrect')
+    return Promise.reject(error)
   }
 }
 
@@ -98,18 +93,16 @@ export const refreshTokenAction = async () => {
   }
 }
 
-export async function checkEmailExists(params: {
-  email: string
-}): Promise<ApiResponse<{ exists: boolean }>> {
+export async function checkEmailExists(params: { email: string }) {
   try {
     const { data: response } = await authApi.checkEmailExists(params)
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
 
-    return response as ApiResponse<{ exists: boolean }>
+    return response
   } catch (error) {
-    return Promise.reject('Failed to check email existence')
+    return Promise.reject(error)
   }
 }
 
@@ -125,7 +118,7 @@ export async function register(params: {
     }
     throw response
   } catch (error) {
-    return Promise.reject('Failed to register')
+    return Promise.reject(error)
   }
 }
 
@@ -145,7 +138,7 @@ export async function verifySigupOtp(params: {
     }
     return response
   } catch (error) {
-    return Promise.reject('Failed to verify OTP')
+    return Promise.reject(error)
   }
 }
 
@@ -157,21 +150,21 @@ export async function resendOtp(params: { email: string }) {
     }
     return response
   } catch (error) {
-    return Promise.reject('Failed to resend OTP')
+    return Promise.reject(error)
   }
 }
 
 export async function forgotPassword(params: { email: string }) {
   try {
     const { data: response } = await authApi.forgotPassword(params)
-    
+
     if (response.code !== CodeResponse.SUCCESS) {
       throw response
     }
 
     return response
   } catch (error) {
-    return Promise.reject('Email not found')
+    return Promise.reject(error)
   }
 }
 
@@ -189,6 +182,6 @@ export async function resetPassword(params: {
 
     return response
   } catch (error) {
-    return Promise.reject('Failed to reset password')
+    return Promise.reject(error)
   }
 }

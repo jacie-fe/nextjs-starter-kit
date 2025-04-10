@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "build-stats": "cross-env ANALYZE=true pnpm run build"
+    "build-stats": "cross-env ANALYZE=true yarn run build"
   },
   "dependencies": {
     "@commitlint/types": "^19.5.0",

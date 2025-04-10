@@ -1,4 +1,3 @@
-import Footer from '@/components/custom/footer'
 export default async function Layout(props: {
   children: React.ReactNode
   params: Promise<{ locale: string }>
@@ -6,7 +5,6 @@ export default async function Layout(props: {
   return (
     <>
       {props.children}
-      <Footer />
     </>
   )
 }

@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/custom/header/header'
 import { AuthProvider } from '@/providers/auth'
 import ReactQueryProvider from '@/providers/react-query'
+import Footer from '@/components/custom/footer'
 
 export const metadata: Metadata = {
   title: 'eAuthenticator',
@@ -49,6 +50,7 @@ export default async function RootLayout({
               >
                 {children}
               </main>
+              <Footer />
             </AuthProvider>
           </ReactQueryProvider>
         </NextIntlClientProvider>

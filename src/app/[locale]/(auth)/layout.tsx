@@ -1,5 +1,3 @@
-import Footer from '@/components/custom/footer'
-
 export default function AuthLayout({
   children,
 }: {
@@ -10,7 +8,6 @@ export default function AuthLayout({
       <div className='flex min-h-[calc(100vh-(var(--header-height)+var(--footer-height)))] flex-col items-center justify-center dark:bg-gray-900'>
         {children}
       </div>
-      <Footer />
     </>
   )
 }

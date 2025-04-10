@@ -1,9 +1,9 @@
 {
-  "name": "nextjs-starter",
+  "name": "nextjs-starter-kit",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 4000",
+    "dev": "next dev --turbopack -p 4000 -H 127.0.0.1",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

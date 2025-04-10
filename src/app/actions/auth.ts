@@ -34,13 +34,6 @@ export const removeRefreshToken = async () => {
   return removeToken('refresh_token')
 }
 
-function processApiError(error: unknown) {
-  if (error instanceof ApiError) {
-    return Promise.reject(error.message)
-  }
-  return Promise.reject('An unexpected error occurred')
-}
-
 export const signInAction = async (data: {
   email: string
   password: string

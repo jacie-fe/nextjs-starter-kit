@@ -1,4 +1,3 @@
- 
 import axios from 'axios'
 import {
   getTokenAction,
@@ -52,6 +51,7 @@ export default function createApiClient(baseURL: string) {
           // Clear tokens if refresh fails
           await removeAccessToken()
           await removeRefreshToken()
+          refreshPromise = null
           return Promise.reject(err)
         }
       }
@@ -65,12 +65,13 @@ export default function createApiClient(baseURL: string) {
     if (!refreshPromise) {
       refreshPromise = refreshTokenAction()
         .then(({ access_token }) => {
-          refreshPromise = null
           return setAccessToken(access_token).then(() => access_token)
         })
         .catch((err) => {
-          refreshPromise = null
           throw err
+        })
+        .finally(() => {
+          refreshPromise = null
         })
     }
     return refreshPromise

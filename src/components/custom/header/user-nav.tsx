@@ -16,7 +16,6 @@ import { UserProfile } from '@/types/global'
 import { useAuth } from '@/providers/auth'
 import { Link } from '@/i18n/navigation'
 import { routePaths } from '@/lib/routePaths'
-import { RightMenu } from './right-menu'
 
 interface UserInfoBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   user?: UserProfile | null
@@ -65,17 +64,16 @@ export function UserNav() {
     return (
       <div className='flex items-center gap-2'>
         <Button asChild variant='outline'>
-          <Link href={auth.signup.url}>{auth.signup.title}</Link>
+          <Link href={auth.login.url}>{auth.login.title}</Link>
         </Button>
         <Button asChild>
-          <Link href={auth.login.url}>{auth.login.title}</Link>
+          <Link href={auth.signup.url}>{auth.signup.title}</Link>
         </Button>
       </div>
     )
   }
   return (
     <>
-      <RightMenu />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button

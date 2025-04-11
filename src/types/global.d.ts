@@ -11,10 +11,3 @@ export type UserProfile = {
   last_name: string
   organization_name: string
 }
-export interface NavigationMenuItem {
-  title: string
-  url: string
-  description?: string
-  icon?: React.ReactNode
-  items?: NavigationMenuItem[]
-}

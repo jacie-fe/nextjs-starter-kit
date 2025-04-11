@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import '../globals.css'
+import '@/app/styles/globals.css'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/navigation'
@@ -11,8 +11,8 @@ import ReactQueryProvider from '@/providers/react-query'
 import Footer from '@/components/custom/footer'
 
 export const metadata: Metadata = {
-  title: 'eAuthenticator',
-  description: 'eAuthenticator',
+  title: 'GLO Mega Lottery',
+  description: 'GLO Mega Lottery',
 }
 
 export function generateStaticParams() {
@@ -38,7 +38,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className='overflow-hidden'>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ReactQueryProvider>
             <AuthProvider>
@@ -46,7 +46,7 @@ export default async function RootLayout({
               <Toaster richColors />
               <main
                 id='content'
-                className='mt-[65px] sm:mt-[80px] h-full min-h-[calc(100vh-(var(--header-height)+var(--footer-height)))] transition-[margin] sm:overflow-x-hidden'
+                className='scrollable-content pt-[var(--header-height)] h-[calc(100vh-var(--footer-height))] transition-[margin] overflow-auto'
               >
                 {children}
               </main>

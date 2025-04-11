@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import AuthImage from '@/assets/auth-image.svg'
 import { Button } from '@/components/custom/button'
 import {
   Card,
@@ -26,7 +25,6 @@ import { Input } from '@/components/ui/input'
 import { useErrorHandler } from '@/hooks/use-error-handler'
 import { cn } from '@/lib/utils'
 import { SignupData } from '@/types/auth'
-import Image from 'next/image'
 import { checkEmailExists } from '@/app/actions/auth'
 
 interface SetupEmailFormProps extends HTMLAttributes<HTMLDivElement> {
@@ -77,13 +75,6 @@ export function SetupEmailForm({ data, onNext }: SetupEmailFormProps) {
           <CardDescription className='text-center'>
             Just a few quick things to get started
           </CardDescription>
-          <Image
-            src={AuthImage}
-            alt='Auth Image'
-            width={100}
-            height={100}
-            className='m-auto mt-4'
-          />
         </CardHeader>
 
         <div className={cn('mt-6 grid gap-6')}>

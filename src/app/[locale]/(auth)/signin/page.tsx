@@ -10,7 +10,7 @@ export default function SignIn() {
     <Suspense fallback={<div>Loading...</div>}>
       <div className='container grid min-h-[calc(100vh-(var(--header-height)+var(--footer-height)))] flex-col items-center justify-center lg:max-w-none lg:px-0'>
         <div className='mx-auto flex w-full flex-col justify-center space-y-2 p-3 sm:w-[480px] lg:p-8'>
-          <Card className='p-6 pb-8'>
+          <Card className='p-6 pb-8 bg-white/90'>
             <div className='flex flex-col space-y-2 text-left'>
               <h1 className='text-center text-2xl font-semibold tracking-tight'>
                 Login

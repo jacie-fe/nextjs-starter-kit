@@ -1,23 +1,19 @@
-import { Menu } from 'lucide-react'
+'use client'
+
 import Image from 'next/image'
 
 import {
   NavigationMenu,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import Logo from '@/assets/logo.svg'
-import { menu } from '@/lib/constants'
 import { UserNav } from './user-nav'
-import { Button } from '../button'
-import { Link } from '@/i18n/navigation'
-import { MenuItem, MobileMenu } from './menu-item'
+import { Link, usePathname } from '@/i18n/navigation'
+import { menu } from './menu-config'
+import { MenuItem } from './menu-item'
+import MobileMenu from './mobile-menu'
+import { useEffect, useMemo, useState } from 'react'
 interface MenuItem {
   title: string
   url: string
@@ -29,31 +25,54 @@ interface MenuItem {
 type HeaderProps = React.HTMLAttributes<HTMLUListElement>
 
 const Header = ({ className }: HeaderProps) => {
+  const pathname = usePathname()
+
+  const [isScrolled, setIsScrolled] = useState(false)
+  const isHomePage = useMemo(() => {
+    return pathname === '/' || pathname === '/home'
+  }, [pathname])
+
+  useEffect(() => {
+    const scrollElement =
+      document.getElementsByClassName('scrollable-content')?.[0]
+    if (!scrollElement) return
+
+    const handleScroll = () => {
+      setIsScrolled(scrollElement.scrollTop > 50)
+    }
+
+    scrollElement.addEventListener('scroll', handleScroll)
+
+    return () => scrollElement.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <section
       className={cn(
-        'fixed top-0 z-50 w-full shrink-0 border-b bg-white',
-        className
+        'fixed top-0 z-50 h-[var(--header-height)] w-full shrink-0 border-b',
+        className,
+        {
+          'transition-colors duration-300': isHomePage,
+          'bg-white': isScrolled,
+          'bg-transparent': !isScrolled,
+          'border-transparent': !isScrolled && isHomePage,
+        }
       )}
     >
-      <div className='container mx-auto'>
+      <div className='container mx-auto h-full'>
         {/* Desktop Menu */}
-        <nav className='hidden justify-between lg:flex'>
+        <nav className='menubar hidden justify-between lg:flex'>
           <Link className='flex items-center gap-2' href='/'>
-            <Image
-              src={Logo}
-              className='max-h-8'
-              alt='eAuthenticator'
-            />
+            <Image src={Logo} className='max-h-8' alt='eAuthenticator' />
           </Link>
           <div className='flex items-center'>
             <NavigationMenu viewport={false}>
-              <NavigationMenuList>
+              <NavigationMenuList className='h-[calc(var(--header-height)-1px)]'>
                 {menu.map((item) => (
                   <MenuItem
                     item={item}
                     key={item.title}
-                    className='h-auto rounded-none border-b-[2px] border-b-transparent'
+                    className='rounded-none border-b-[2px] border-b-transparent'
                   />
                 ))}
               </NavigationMenuList>
@@ -63,34 +82,8 @@ const Header = ({ className }: HeaderProps) => {
             <UserNav />
           </div>
         </nav>
-
         {/* Mobile Menu */}
-        <div className='block h-16 lg:hidden'>
-          <div className='flex h-full items-center justify-between px-3'>
-            {/* Logo */}
-            <Link className='flex items-center gap-2' href='/'>
-              <Image
-                src={Logo}
-                className='max-h-8'
-                alt='eAuthenticator'
-                width={60}
-                height={60}
-              />
-            </Link>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant='outline' size='icon'>
-                  <Menu className='size-4' />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className='overflow-y-auto'>
-                <SheetHeader>
-                </SheetHeader>
-                  <MobileMenu items={menu} />
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
+        <MobileMenu />
       </div>
     </section>
   )

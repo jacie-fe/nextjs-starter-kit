@@ -10,7 +10,7 @@
 }
 @layer base {
   :root {
-    --radius: 0.5rem;
+    --radius: 1.5rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.141 0.005 285.823);
     --card: oklch(1 0 0);
@@ -43,7 +43,7 @@
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.705 0.015 286.067);
   }
-  
+
   .dark {
     --background: oklch(0.141 0.005 285.823);
     --foreground: oklch(0.985 0 0);
@@ -77,7 +77,6 @@
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.552 0.016 285.938);
   }
-  
 }
 
 @theme inline {
@@ -126,8 +125,12 @@
   body {
     @apply bg-background text-foreground;
   }
-}
 
+  :root {
+    --menu-link-color: var(--color-gray-500);
+    --menu-link-active-color: var(--primary);
+  }
+}
 
 html {
   scroll-behavior: smooth;
@@ -135,15 +138,21 @@ html {
 
 :root {
   --header-height: 80px;
-  --footer-height: 264px;
-}
-.document-heading {
-  @apply mb-6 text-[32px] font-medium sm:mb-10 sm:text-[38px];
-}
-
-.code {
-  @apply rounded-sm bg-gray-200 px-1 text-[15px] font-medium;
+  --footer-height: 252px;
 }
 .ea-error-message {
-  @apply text-destructive text-sm mt-2 first-letter:capitalize;
+  @apply text-destructive mt-2 text-sm first-letter:capitalize;
+}
+
+@layer components {
+  .menu-link {
+    @apply transition-colors duration-200 ease-in-out;
+    color: var(--menu-link-color);
+  }
+  .menu-link:hover,
+  .menu-link.active,
+  .menu-link.active:hover,
+  .menu-link.active:focus {
+    color: var(--menu-link-active-color);
+  }
 }

@@ -5,7 +5,7 @@ export default async function Layout() {
   return (
     <>
       <div
-        className='mt-[-80px] h-[500px] bg-cover bg-center bg-no-repeat'
+        className='mt-[-80px] h-[500px] bg-cover bg-center bg-no-repeat relative'
         style={{ backgroundImage: `url(${bgImage.src})` }}
       >
         <Banner />

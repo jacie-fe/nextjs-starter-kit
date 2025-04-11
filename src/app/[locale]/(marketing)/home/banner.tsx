@@ -1,50 +1,45 @@
 'use client'
 
-import { motion, useAnimation } from 'framer-motion'
-import { useEffect } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+
+import { Pagination, Autoplay, Navigation } from 'swiper/modules'
 
 const banners = [
-  "Welcome to our site!",
-  "Don't miss our new features!",
-  "Enjoy fast, secure access!",
+  { id: 1, title: 'Welcome to our site!' },
+  { id: 2, title: 'New Features Available!' },
+  { id: 3, title: 'Secure & Fast Access!' },
 ]
 
 export default function Banner() {
-  const controls = useAnimation()
-
-  useEffect(() => {
-    let index = 0
-
-    const slide = async () => {
-      while (true) {
-        await controls.start({
-          x: `-${index * 100}vw`,
-          transition: { duration: 0.8, ease: 'easeInOut' },
-        })
-        index = (index + 1) % banners.length
-        await new Promise((resolve) => setTimeout(resolve, 3000))
-      }
-    }
-
-    slide()
-  }, [controls])
-
   return (
-    <div className="overflow-hidden w-ful text-white h-full">
-      <motion.div
-        className="flex w-full h-full"
-        animate={controls}
-        style={{ width: `${banners.length * 100}%` }}
+    <div className='absolute top-0 left-0 h-full w-full max-w-screen overflow-hidden'>
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        loop={true}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={false}
+        modules={[Autoplay, Pagination, Navigation]}
+        className='h-full w-full'
       >
-        {banners.map((text, idx) => (
-          <div
-            key={idx}
-            className="w-screen h-full flex items-center flex-shrink-0 text-center justify-center py-4 text-4xl font-bold"
-          >
-            {text}
-          </div>
+        {banners.map((banner) => (
+          <SwiperSlide key={banner.id}>
+            <div className='flex h-full items-center justify-center text-3xl font-bold text-white'>
+              {banner.title}
+            </div>
+          </SwiperSlide>
         ))}
-      </motion.div>
+      </Swiper>
     </div>
   )
 }

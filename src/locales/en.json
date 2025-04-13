@@ -1,6 +1,8 @@
 {
   "common": {
-    "sign_in": "Sign in",
-    "sign_up": "Sign up"
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "english": "English",
+    "thai": "Thai"
   }
 }

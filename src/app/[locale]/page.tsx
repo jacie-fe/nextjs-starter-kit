@@ -1,4 +1,4 @@
-import Home from "./home/home";
+import Home from "@/components/custom/home";
 
 export default async function Index() {
   return (

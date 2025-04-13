@@ -1,6 +1,6 @@
 export default function Introduction() {
   return (
-    <div className='space-y-4' id='introduction'>
+    <div className='space-y-4'>
       <div>
         We believe in providing exceptional support to ensure you have a
         seamless experience with our products and services. Whether you’re

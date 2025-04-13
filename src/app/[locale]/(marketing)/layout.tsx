@@ -3,8 +3,8 @@ export default async function Layout(props: {
   params: Promise<{ locale: string }>
 }) {
   return (
-    <>
+    <div className="container mx-auto px-3 py-6">
       {props.children}
-    </>
+    </div>
   )
 }

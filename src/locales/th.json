@@ -1,6 +1,8 @@
 {
   "common": {
-    "sign_in": "thai sign in",
-    "sign_up": "thai sign up"
+    "sign_in": "เข้าสู่ระบบ",
+    "sign_up": "ลงทะเบียน",
+    "english": "ภาษาอังกฤษ",
+    "thai": "ไทย"
   }
 }

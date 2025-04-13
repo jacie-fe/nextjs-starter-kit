@@ -11,7 +11,7 @@ import Logo from '@/assets/logo.svg'
 import { UserNav } from './user-nav'
 import { Link, usePathname } from '@/i18n/navigation'
 import { menu } from './menu-config'
-import { MenuItem } from './menu-item'
+import { LangugeSwitcher, MenuItem } from './menu-item'
 import MobileMenu from './mobile-menu'
 import { useEffect, useMemo, useState } from 'react'
 interface MenuItem {
@@ -49,13 +49,11 @@ const Header = ({ className }: HeaderProps) => {
   return (
     <section
       className={cn(
-        'fixed top-0 z-50 h-[var(--header-height)] w-full shrink-0 border-b',
+        'fixed top-0 z-50 h-[var(--header-height)] w-full shrink-0 border-b bg-white',
         className,
         {
           'transition-colors duration-300': isHomePage,
-          'bg-white': isScrolled,
-          'bg-transparent': !isScrolled,
-          'border-transparent': !isScrolled && isHomePage,
+          'bg-transparent border-transparent': !isScrolled && isHomePage,
         }
       )}
     >
@@ -79,6 +77,7 @@ const Header = ({ className }: HeaderProps) => {
             </NavigationMenu>
           </div>
           <div className='flex items-center gap-2'>
+            <LangugeSwitcher />
             <UserNav />
           </div>
         </nav>

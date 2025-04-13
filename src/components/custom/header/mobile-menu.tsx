@@ -18,11 +18,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { useAuth } from '@/providers/auth'
-import { routePaths } from '@/lib/routePaths'
 import { UserInfoBox } from './user-nav'
 import { useState } from 'react'
-import { MenuLink } from './menu-item'
+import { AuthButtons, MenuLink } from './menu-item'
+import { useAuth } from '@/providers/AuthProvider'
 
 export default function MobileMenu() {
   const { isAuth, user, logout } = useAuth()
@@ -31,35 +30,8 @@ export default function MobileMenu() {
     setActiveItem((prev) => (prev === item ? menu[0].url : item))
   }
 
-  const auth = {
-    login: { title: 'Login', url: routePaths.guest.signin },
-    signup: { title: 'Sign up', url: routePaths.guest.signup },
-  }
-
   const handleLogoutClick = () => {
     logout()
-  }
-
-  const renderMobileAction = () => {
-    if (isAuth) {
-      return (
-        <Button onClick={handleLogoutClick} variant='outline' className='mt-4'>
-          <LogOutIcon size={16} className='mr-2' />
-          Logout
-        </Button>
-      )
-    }
-
-    return (
-      <div className='grid grid-cols-2 gap-3'>
-        <Button asChild variant='outline'>
-          <a href={auth.login.url}>{auth.login.title}</a>
-        </Button>
-        <Button asChild>
-          <a href={auth.signup.url}>{auth.signup.title}</a>
-        </Button>
-      </div>
-    )
   }
 
   return (
@@ -86,7 +58,9 @@ export default function MobileMenu() {
             <SheetContent className='overflow-y-auto'>
               <SheetHeader></SheetHeader>
               <div className='flex flex-col gap-4 p-4'>
-                {renderMobileAction()}
+                {!isAuth && (
+                  <AuthButtons className='mb-4 grid grid-cols-2 gap-3' />
+                )}
                 {isAuth && <UserInfoBox user={user} className='mb-3' />}
                 <Accordion
                   type='single'
@@ -99,6 +73,16 @@ export default function MobileMenu() {
                     <MobileMenuItem item={item} key={item.title} />
                   ))}
                 </Accordion>
+                {isAuth && (
+                  <Button
+                    onClick={handleLogoutClick}
+                    variant='outline'
+                    className='mt-4'
+                  >
+                    <LogOutIcon size={16} className='mr-2' />
+                    Logout
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>
@@ -112,7 +96,7 @@ const MobileMenuItem = ({ item }: { item: MenuItemType }) => {
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.url} className='border-b-0'>
-        <AccordionTrigger className='py-0 font-medium text-base hover:no-underline'>
+        <AccordionTrigger className='menu-link py-0 text-base leading-3 font-semibold hover:no-underline'>
           {item.title}
         </AccordionTrigger>
         <AccordionContent className='mt-2'>

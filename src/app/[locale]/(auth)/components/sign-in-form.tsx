@@ -22,10 +22,10 @@ import { routePaths } from '@/lib/routePaths'
 import { Button } from '@/components/custom/button'
 import { signInAction } from '@/app/actions/auth'
 import { useRouter } from '@/i18n/navigation'
-import { useAuth } from '@/providers/auth'
 import { useSearchParams } from 'next/navigation'
 import { ApiError } from '@/lib/errors'
 import { useErrorHandler } from '@/hooks/use-error-handler'
+import { useAuth } from '@/providers/AuthProvider'
 
 type SigninFormProps = HTMLAttributes<HTMLDivElement>
 

@@ -13,9 +13,8 @@ import {
 import { cn, getInitials } from '@/lib/utils'
 import { LogOutIcon, UserIcon } from 'lucide-react'
 import { UserProfile } from '@/types/global'
-import { useAuth } from '@/providers/auth'
-import { Link } from '@/i18n/navigation'
-import { routePaths } from '@/lib/routePaths'
+import { AuthButtons } from './menu-item'
+import { useAuth } from '@/providers/AuthProvider'
 
 interface UserInfoBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   user?: UserProfile | null
@@ -56,20 +55,8 @@ export function UserNav() {
   }
 
   if (!isAuth) {
-    const auth = {
-      login: { title: 'Login', url: routePaths.guest.signin },
-      signup: { title: 'Sign up', url: routePaths.guest.signup },
-    }
-
     return (
-      <div className='flex items-center gap-2'>
-        <Button asChild variant='outline'>
-          <Link href={auth.login.url}>{auth.login.title}</Link>
-        </Button>
-        <Button asChild>
-          <Link href={auth.signup.url}>{auth.signup.title}</Link>
-        </Button>
-      </div>
+      <AuthButtons />
     )
   }
   return (
